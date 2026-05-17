@@ -14,8 +14,8 @@
     <style>
         /* --- KALİTELİ VE MODERN CSS TASARIMI --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #060814 0%, #0b112c 100%);
-            --card-bg: rgba(13, 20, 48, 0.7);
+            --bg-gradient: linear-gradient(135deg, #02040a 0%, #050816 100%);
+            --card-bg: rgba(7, 11, 28, 0.85);
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --neon-blue: #38bdf8;
@@ -42,6 +42,7 @@
             justify-content: center;
             padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
         body::before {
@@ -49,7 +50,7 @@
             position: absolute;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0,0,0,0) 70%);
             top: -100px;
             left: -100px;
             z-index: -1;
@@ -63,7 +64,7 @@
             border-radius: 24px;
             padding: 40px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255,255,255,0.05);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -97,8 +98,8 @@
 
         .search-box {
             display: flex;
-            background: rgba(5, 8, 22, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(4, 6, 14, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 8px;
             border-radius: 16px;
             transition: all 0.3s ease;
@@ -126,7 +127,7 @@
 
         .search-box button {
             background: var(--neon-blue);
-            color: #060814;
+            color: #040610;
             border: none;
             outline: none;
             padding: 0 28px;
@@ -193,7 +194,7 @@
 
         .report-section {
             display: none;
-            background: rgba(5, 8, 22, 0.4);
+            background: rgba(4, 6, 14, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 24px;
@@ -243,7 +244,7 @@
         }
 
         .cyber-contact-section {
-            background: rgba(5, 8, 22, 0.4);
+            background: rgba(4, 6, 14, 0.4);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 24px;
@@ -285,7 +286,7 @@
 
         .cyber-mail-btn:hover {
             background: var(--neon-blue);
-            color: #060814;
+            color: #040610;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
             transform: translateY(-1px);
         }
@@ -308,6 +309,8 @@
             font-size: 0.8rem;
             color: #4b5563;
             text-align: center;
+            position: relative;
+            z-index: 5;
         }
     </style>
 </head>
@@ -317,7 +320,7 @@
         <div class="header">
             <div class="icon-shield">🛡️</div>
             <h1>SİBER KALKAN</h1>
-            <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin.<br>Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
+            <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin.<br>Sistem canlı DNS ve derin kaynak kod (DOM) analizi gerçekleştirir.</p>
         </div>
 
         <div class="search-box">
@@ -358,7 +361,6 @@
         function analizSureci() {
             const urlInput = document.getElementById('url-input').value.trim();
             const loader = document.getElementById('loading-zone');
-            const loadingText = document.getElementById('loading-text');
             const statusCard = document.getElementById('status-card');
             const reportZone = document.getElementById('report-zone');
 
@@ -370,12 +372,11 @@
             statusCard.style.display = "none";
             reportZone.style.display = "none";
             loader.style.display = "block";
-            loadingText.innerText = "SİBER TEHDİT MOTORLARI ÇALIŞIYOR...";
 
-            setTimeout(async () => {
-                await gercekAnaliz(urlInput);
+            // Asenkron süreci doğrudan başlatıyoruz
+            gercekAnaliz(urlInput).then(() => {
                 loader.style.display = "none";
-            }, 1200);
+            });
         }
 
         async function gercekAnaliz(inputUrl) {
@@ -409,15 +410,11 @@
             let temizDomain = domain.replace(/^www\./, '');
 
             // --- 1. KATMAN: GENİŞLETİLMİŞ GÜVENLİ KALIP VE BEYAZ LİSTE KONTROLÜ ---
-            // Türkiye'deki popüler olan ve olmayan resmi kargo siteleri kalıpları
             const kargoBeyazListe = ['yurtiçikargo', 'yurticikargo', 'araskargo', 'mngkargo', 'suratkargo', 'süratkargo', 'pttkargo', 'ups.com', 'dhl.com', 'fedex', 'jetizz', 'scotty', 'kolaygelsin', 'horoz'];
-            // Popüler küresel devler ve sosyal ağlar
             const globalBeyazListe = ['youtube.com', 'google.com', 'instagram.com', 'github.com', 'twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'microsoft.com', 'apple.com', 'netflix.com', 'spotify.com'];
             
-            // Resmi Uzantılar (.gov.tr, .edu.tr, .bel.tr, .pol.tr vb.)
             const resmiUzantiliMi = temizDomain.endsWith('.gov.tr') || temizDomain.endsWith('.edu.tr') || temizDomain.endsWith('.bel.tr') || temizDomain.endsWith('.pol.tr');
             
-            // Kullanıcı kargo kelimesi aratmış ama domain gerçekten yasal bir kargo firmasına mı ait kontrolü
             let guvenliKargoMu = false;
             kargoBeyazListe.forEach(k => {
                 if (temizDomain.includes(k) && (temizDomain.endsWith('.com.tr') || temizDomain.endsWith('.com'))) {
@@ -432,7 +429,6 @@
                 }
             });
 
-            // Eğer girilen domain yasal/kurumsal güvenli kalıplardan biriyse risk taramasını temiz kapatıyoruz
             if (resmiUzantiliMi || guvenliKargoMu || globalDevMi) {
                 statusCard.style.display = "block";
                 reportZone.style.display = "block";
@@ -454,7 +450,7 @@
                 return;
             }
 
-            // --- 2. KATMAN: Küresel Canlı Kara Liste Kontrolü ---
+            // --- 2. KATMAN: KÜRESEL CANLI KARA LİSTE KONTROLÜ ---
             loadingText.innerText = "KÜRESEL TEHDİT HAVUZU SORGULANIYOR...";
             const proxy = "https://corsproxy.io/?";
             const karaListeUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
@@ -476,10 +472,103 @@
                     }
                 }
             } catch (e) {
-                console.log("Canlı tehdit istihbaratı ağ hatası, heuristik analiz devralıyor.");
+                console.log("Canlı tehdit ağı hatası.");
             }
 
-            // --- 3. KATMAN: SSL/HTTPS Protokol Kontrolü ---
+            // --- 3. KATMAN: CANLI DNS DOĞRULAMA KONTROLÜ (YENİ SİBER ZEKÂ) ---
+            loadingText.innerText = "KÜRESEL DNS ALTYAPISI SORGULANIYOR...";
+            let domainAktifMi = true;
+            try {
+                const dnsRes = await fetch(`https://cloudflare-dns.com/dns-query?name=${temizDomain}&type=A`, {
+                    headers: { 'Accept': 'application/dns-json' }
+                });
+                if (dnsRes.ok) {
+                    const dnsData = await dnsRes.json();
+                    if (dnsData.Status === 3 || !dnsData.Answer) {
+                        domainAktifMi = false;
+                        riskSkoru += 60;
+                        bulgular.push({
+                            baslik: "Geçersiz / Aktif Olmayan Sunucu",
+                            desc: "Bu alan adı dünya DNS ağında aktif bir IP adresine çıkmıyor. Hayali veya kapatılmış sahte bir adrestir.",
+                            seviye: "KRİTİK HATA",
+                            renk: "var(--neon-orange)"
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log("DNS sorgusu yapılamadı.");
+            }
+
+            // --- 4. KATMAN: CANLI HTML KOD İNCELEME MOTORU (YENİ DOM ANALİZİ) ---
+            if (domainAktifMi && !karaListedeVarMi) {
+                loadingText.innerText = "SİTE İÇERİĞİ VE HTML KODLARI TARANIYOR (DOM ANALİZİ)...";
+                try {
+                    const siteSemaUrl = orijinalHttpliMi ? inputUrl : 'https://' + temizDomain;
+                    const siteResponse = await fetch(`${proxy}${encodeURIComponent(siteSemaUrl)}`);
+                    
+                    if (siteResponse.ok) {
+                        const htmlIcerik = await siteResponse.text();
+                        const temizHtml = htmlIcerik.toLowerCase();
+
+                        if (temizHtml.length > 30) {
+                            let icerikTehdidi = 0;
+
+                            // Form ve veri avlama kontrolü
+                            if (temizHtml.includes('type="password"') || temizHtml.includes('password') || temizHtml.includes('kart no') || temizHtml.includes('t.c. kimlik') || temizHtml.includes('kimlik no')) {
+                                riskSkoru += 50;
+                                icerikTehdidi++;
+                                bulgular.push({
+                                    baslik: "Hassas Veri Giriş Tuzağı",
+                                    desc: "Sitenin iç kod yapısında kimlik veya kredi kartı bilgilerini sızdırmaya yönelik doğrulanmamış veri formları algılandı.",
+                                    seviye: "KRİTİK TEHDİT",
+                                    renk: "var(--neon-red)"
+                                });
+                            }
+
+                            // Şüpheli yönlendirme kontrolü
+                            if (temizHtml.includes('window.location') || temizHtml.includes('location.href') || temizHtml.includes('replace(')) {
+                                riskSkoru += 30;
+                                icerikTehdidi++;
+                                bulgular.push({
+                                    baslik: "Zararlı JS Yönlendirme Kodu",
+                                    desc: "Site scriptleri içinde kullanıcıyı otomatik olarak başka bir adrese kaçırma tetikleyicileri saptandı.",
+                                    seviye: "YÜKSEK RİSK",
+                                    renk: "var(--neon-orange)"
+                                });
+                            }
+
+                            if (icerikTehdidi > 0) {
+                                bulgular.push({
+                                    baslik: "Kaynak Kod Derin İnceleme",
+                                    desc: `Sitenin HTML gövdesi başarıyla tarandı. İçeride toplam <b>${icerikTehdidi} adet</b> siber tehdit paterni eşleşti.`,
+                                    seviye: "ŞÜPHELİ KOD",
+                                    renk: "var(--neon-red)"
+                                });
+                            } else {
+                                bulgular.push({
+                                    baslik: "Kaynak Kod Derin İnceleme",
+                                    desc: "Sitenin canlı HTML kod yapısı tarandı. Form tuzaklarına veya zararlı script yönlendirmelerine rastlanmadı.",
+                                    seviye: "TEMİZ KOD",
+                                    renk: "var(--neon-green)"
+                                });
+                            }
+                        }
+                    } else {
+                        throw new Error("Proxy engeli");
+                    }
+                } catch (e) {
+                    // Fail-secure mantığı: Tarama engelleniyorsa saldırgan site kendini gizliyor olabilir, risk puanı ekle.
+                    riskSkoru += 25;
+                    bulgular.push({
+                        baslik: "Canlı Kod Taraması Reddedildi",
+                        desc: "Site içeriği dış analiz sorgularını bloke etti veya sistem kendini gizliyor. Güvenlik protokolü gereği risk katsayısı artırıldı.",
+                        seviye: "TARAMA BLOKE",
+                        renk: "var(--neon-orange)"
+                    });
+                }
+            }
+
+            // --- 5. KATMAN: SSL/HTTPS Protokol Kontrolü ---
             if (orijinalHttpliMi && !orijinalHttpsliMi) {
                 riskSkoru += 20;
                 bulgular.push({
@@ -490,14 +579,14 @@
                 });
             }
 
-            // --- 4. KATMAN: Şüpheli Alan Adı Uzantıları ---
+            // --- 6. KATMAN: Şüpheli Alan Adı Uzantıları ---
             const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.cf', '.work', '.ru', '.site', '.link'];
             let uzantiYakalandi = false;
             illegalUzanti.forEach(u => {
                 if (temizDomain.endsWith(u)) { uzantiYakalandi = true; }
             });
             if (uzantiYakalandi) {
-                riskSkoru += 40;
+                riskSkoru += 35;
                 bulgular.push({
                     baslik: "Şüpheli Alan Adı Uzantısı",
                     desc: "Siber saldırganlar maliyeti ucuz ve kimlik takibi zor olan uzantıları (.xyz, .top, .link vb.) oltalama amaçlı sıklıkla tercih eder.",
@@ -506,15 +595,14 @@
                 });
             }
 
-            // --- 5. KATMAN: Oltalama (Phishing) Anahtar Kelimeleri ---
-            // (Beyaz listeden geçemeyen ama isminde panik/ödül/kargo geçen siteler yakalanır)
+            // --- 7. KATMAN: Oltalama (Phishing) Anahtar Kelimeleri ---
             const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'edevlet', 'giriş', 'fatura', 'borc', 'borç', 'tazminat', 'vize'];
             let yakalananKelimeler = [];
             tuzakKelimeler.forEach(kelime => {
                 if (inputUrl.toLowerCase().includes(kelime)) { yakalananKelimeler.push(kelime); }
             });
             if (yakalananKelimeler.length > 0) {
-                riskSkoru += 35;
+                riskSkoru += 30;
                 bulgular.push({
                     baslik: "Oltalama (Phishing) Anahtar Kelimeleri",
                     desc: `Güvenli listelerde yer almayan bu bağlantının içinde hassas tetikleyici kelimeler saptandı: (${yakalananKelimeler.join(', ')})`,
@@ -523,7 +611,7 @@
                 });
             }
 
-            // --- 6. KATMAN: Doğrudan IP Adresi Kontrolü ---
+            // --- 8. KATMAN: Doğrudan IP Adresi Kontrolü ---
             const ipFormati = /^(\d{1,3}\.){3}\d{1,3}$/;
             if (ipFormati.test(temizDomain)) {
                 riskSkoru += 60;
@@ -554,7 +642,7 @@
             } else {
                 statusCard.className = "result-card safe-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ GÖRÜNÜYOR</span>`;
-                statusDesc.innerText = "Yapılan statik ve heuristik veri analizinde herhangi bir siber tehdit unsuruna rastlanmadı.";
+                statusDesc.innerText = "Yapılan statik, DNS ve heuristik veri analizinde herhangi bir siber tehdit unsuruna rastlanmadı.";
             }
 
             if (bulgular.length === 0) {
