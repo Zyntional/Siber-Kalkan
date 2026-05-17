@@ -22,55 +22,36 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
         body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
 
-        .container { width: 100%; max-width: 720px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 50px 40px; backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); margin-bottom: 25px; }
+        .container { width: 100%; max-width: 720px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px 40px 30px 40px; backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); margin-bottom: 20px; }
         
-        .header { text-align: center; margin-bottom: 30px; }
+        .header { text-align: center; margin-bottom: 25px; }
         
-        /* Görseldeki Şık Mavi Kalkan */
-        .shield-icon {
-            width: 50px;
-            height: 55px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, #38bdf8, #1d4ed8);
-            clip-path: polygon(50% 0%, 100% 23%, 100% 70%, 50% 100%, 0% 70%, 0% 23%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-        }
-        .shield-inner {
-            width: 42px;
-            height: 47px;
-            background: #090f26;
-            clip-path: polygon(50% 0%, 100% 23%, 100% 70%, 50% 100%, 0% 70%, 0% 23%);
+        /* Yeni Eklenen Şık Parlayan Logo Alanı */
+        .logo-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 10px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .shield-core {
-            width: 28px;
-            height: 33px;
-            background: #38bdf8;
-            clip-path: polygon(50% 0%, 100% 23%, 100% 70%, 50% 100%, 0% 70%, 0% 23%);
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
         }
 
         .header h1 { font-size: 2.2rem; font-weight: 800; color: #ffffff; letter-spacing: 1px; margin-bottom: 15px; }
-        .header p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; max-width: 500px; margin: 0 auto; }
+        .header p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; max-width: 520px; margin: 0 auto; }
 
         /* Arama Kutusu Yerleşimi */
-        .search-box { display: flex; background: rgba(4, 6, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 30px; gap: 8px; align-items: center; }
+        .search-box { display: flex; background: rgba(4, 6, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 25px; gap: 8px; align-items: center; }
         .search-box:focus-within { border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
         .search-box input { flex: 1; background: transparent; border: none; outline: none; color: #fff; padding: 12px 15px; font-size: 0.95rem; }
         .search-box input::placeholder { color: #334155; }
         .search-box button { background: #38bdf8; color: #000000; border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; letter-spacing: 0.5px; }
         .search-box button:hover { background: #7dd3fc; }
-
-        /* Görseldeki İç Geri Bildirim Kutusu */
-        .feedback-box { background: var(--inner-box-bg); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; padding: 25px; text-align: center; }
-        .feedback-box h3 { font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .feedback-box p { color: var(--text-muted); font-size: 0.8rem; line-height: 1.5; max-width: 520px; margin: 0 auto 15px; }
-        .feedback-btn { background: transparent; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 10px 20px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
-        .feedback-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
 
         /* Dinamik Sonuç Kartları */
         .loader { display: none; text-align: center; margin-bottom: 25px; }
@@ -86,11 +67,18 @@
         .report-item { padding: 10px 14px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
         .badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
 
-        /* Görseldeki En Alt Küçük Yazı */
+        /* En Alta Alınan Geri Bildirim Kutusu */
+        .feedback-box { background: var(--inner-box-bg); border-top: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0 0 12px 12px; padding: 20px; text-align: center; margin-top: 20px; }
+        .feedback-box h3 { font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .feedback-box p { color: var(--text-muted); font-size: 0.8rem; line-height: 1.5; max-width: 550px; margin: 0 auto 15px; }
+        .feedback-btn { background: transparent; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 8px 18px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
+        .feedback-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
+
+        /* En Alt Küçük Yazı */
         .footer-text { width: 100%; max-width: 720px; font-size: 0.75rem; color: #222d3d; text-align: center; line-height: 1.5; }
 
         @media (max-width: 600px) {
-            .container { padding: 35px 20px; }
+            .container { padding: 30px 15px 20px 15px; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
             .search-box input { background: rgba(4, 6, 18, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px; width: 100%; margin-bottom: 8px; }
             .search-box button { width: 100%; padding: 14px; border-radius: 10px; }
@@ -104,10 +92,8 @@
 
     <div class="container">
         <div class="header">
-            <div class="shield-icon">
-                <div class="shield-inner">
-                    <div class="shield-core"></div>
-                </div>
+            <div class="logo-container">
+                <img src="http://googleusercontent.com/image_generation_content/0" alt="Siber Kalkan Logo">
             </div>
             <h1>SİBER KALKAN</h1>
             <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin. Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
@@ -232,7 +218,7 @@
                 } else {
                     statusCard.className = "result-card safe-style";
                     statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ BAĞLANTI TEMİZ GÖZÜKÜYOR</span>`;
-                    statusDesc.innerText = "Yapılan sezgisel taramalarda ve aktif kara liste sorgularında herhangi bir siber tehdit unsuruna rastlanmamıştır.";
+                    statusDesc.innerText = "Yapılan sezgisel taramalarda ve aktif kara liste sorgularında herhangi bir siber sızma veya tehdit unsuruna rastlanmamıştır.";
                 }
 
                 bulgular.forEach(b => {
