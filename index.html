@@ -13,8 +13,9 @@
 
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #03050e 0%, #070a1e 100%);
-            --card-bg: rgba(9, 14, 36, 0.8);
+            /* 🔥 İŞTE O ARADIĞIN EN ARKADAKİ KOYU SİBER PUNK ARKA PLAN RENKLERİ 🔥 */
+            --bg-gradient: linear-gradient(135deg, #02040a 0%, #050816 100%);
+            --card-bg: rgba(7, 11, 28, 0.85);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --neon-blue: #38bdf8;
@@ -50,7 +51,7 @@
             border-radius: 24px;
             padding: 40px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255,255,255,0.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255,255,255,0.05);
         }
 
         .header {
@@ -353,7 +354,7 @@
                 return;
             }
 
-            // --- SEZGİSEL KELİME FİLTRESİ (PROXY ÇÖKSE BİLE YAKALAR) ---
+            // --- SEZGİSEL KELİME FİLTRESİ ---
             const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'edevlet', 'giriş', 'fatura', 'borc', 'borç', 'vize'];
             let yakalananlar = tuzakKelimeler.filter(k => temizDomain.includes(k) || hamUrl.includes(k));
             if (yakalananlar.length > 0) {
@@ -482,7 +483,7 @@
             const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.work', '.ru', '.site', '.link'];
             if (illegalUzanti.some(u => temizDomain.endsWith(u))) {
                 riskSkoru += 35;
-                bulgular.push({ baslik: "Şüpheli Ucuz Uzantı", desc: "Saldırganların kimlik gizlemek için açtığı ucuz ve güvensiz uzantı tespiti.", seviye: "YÜKSEK RİSK", border: "var(--neon-red)" });
+                bulgular.push({ baslik: "Şüpheli Ucuz Uzantı", desc: "Saldırganların kimlik gizlemek için açtığı ucuz ve güvensiz uzantı tespiti.", seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
             }
 
             // --- SONUÇLARI GÖRSELLEŞTİRME ---
