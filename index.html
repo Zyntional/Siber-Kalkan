@@ -4,30 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SİBER KALKAN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #020617 0%, #050b18 50%, #0a122c 100%);
-            --card-bg: rgba(10, 17, 41, 0.65);
-            --inner-box-bg: rgba(4, 8, 24, 0.5);
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --neon-blue: #38bdf8;
+            /* Attığın resimdeki birebir arka plan ve siber panel renkleri */
+            --bg-dark: #040814;
+            --card-bg: rgba(6, 11, 30, 0.75);
+            --inner-box-bg: rgba(3, 6, 16, 0.6);
+            --border-glow: rgba(56, 189, 248, 0.2);
+            --text-white: #ffffff;
+            --text-gray: #7e8c9f;
+            --neon-cyan: #38bdf8; /* Butonun ve kalkan parlamasının tam tonu */
+            
+            /* Tarama Sonuç Renkleri */
             --neon-green: #4ade80;
             --neon-red: #f87171;
             --neon-orange: #fb923c;
-            --border-color: rgba(56, 189, 248, 0.15);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
+            background-color: var(--bg-dark);
+            /* Hafif derinlik hissi veren siber arka plan gradyanı */
+            background-image: radial-gradient(circle at center, #071026 0%, #030612 100%);
+            color: var(--text-white);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -36,64 +45,68 @@
             padding: 20px;
         }
 
-        /* Ana Kart Yapısı - Görseldeki Çerçeve ve Arka Plan Oranları */
+        /* Ana Kart - Çerçeve kalınlığı, oval köşeler ve renkler resimle birebir */
         .container {
             width: 100%;
-            max-width: 680px;
+            max-width: 660px;
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 50px 45px;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 45px 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             margin-bottom: 25px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
-        /* İstediğin Kalkan Emojisi Alanı */
-        .shield-emoji {
-            font-size: 3rem;
+        /* İstediğin parlayan kalkan emojisi alanı */
+        .shield-container {
+            font-size: 2.8rem;
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: inline-block;
-            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
+            /* Emojinin arkasına resimdeki o tatlı mavi siber parlamayı ekliyoruz */
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.6));
         }
 
+        /* Birebir resimdeki font kalınlığı, harf arası boşluk ve font boyutu */
         .header h1 {
-            font-size: 2rem;
+            font-size: 2.1rem;
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             margin-bottom: 15px;
             text-transform: uppercase;
         }
 
         .header p {
-            color: #94a3b8;
+            color: var(--text-gray);
             font-size: 0.88rem;
             line-height: 1.6;
-            max-width: 520px;
+            max-width: 500px;
             margin: 0 auto;
+            font-weight: 400;
         }
 
-        /* Input ve Buton Arama Bölümü */
+        /* Input Alanı ve Sağdaki Neon Buton Kümesi */
         .search-box {
             display: flex;
-            background: rgba(3, 7, 18, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(2, 4, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 5px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             align-items: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .search-box:focus-within {
-            border-color: rgba(56, 189, 248, 0.35);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
         }
 
         .search-box input {
@@ -103,66 +116,73 @@
             outline: none;
             color: #ffffff;
             padding: 12px 14px;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
+            font-weight: 400;
         }
 
         .search-box input::placeholder {
-            color: #334155;
+            color: #2a3547;
         }
 
+        /* Resimdeki o meşhur camgöbeği parlayan kalın buton */
         .search-box button {
-            background: #38bdf8;
+            background: var(--neon-cyan);
             color: #000000;
             border: none;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-size: 0.88rem;
-            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 9px;
+            font-size: 0.85rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
             white-space: nowrap;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
         }
 
         .search-box button:hover {
             background: #7dd3fc;
         }
+        
+        .search-box button:active {
+            transform: scale(0.98);
+        }
 
-        /* Tehdit İhbarı / Geri Bildirim Bölümü (Görseldeki alt kutu) */
+        /* Resimdeki Alt Bölüm: Tehdit İhbarı / Geri Bildirim Kutusu */
         .feedback-box {
             background: var(--inner-box-bg);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 12px;
-            padding: 25px 20px;
+            padding: 22px 20px;
             text-align: center;
         }
 
         .feedback-box h3 {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .feedback-box p {
-            color: #64748b;
-            font-size: 0.8rem;
+            color: var(--text-gray);
+            font-size: 0.78rem;
             line-height: 1.5;
-            max-width: 500px;
-            margin: 0 auto 18px;
+            max-width: 480px;
+            margin: 0 auto 15px;
         }
 
+        /* Şık İhbar Butonu */
         .feedback-btn {
             background: transparent;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 10px 24px;
+            color: var(--neon-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 9px 20px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -174,10 +194,10 @@
 
         .feedback-btn:hover {
             background: rgba(56, 189, 248, 0.08);
-            border-color: #38bdf8;
+            border-color: var(--neon-cyan);
         }
 
-        /* Dinamik Çıktı ve Rapor Alanları */
+        /* Dinamik Katman Analiz Çıktıları */
         .loader {
             display: none;
             text-align: center;
@@ -185,122 +205,121 @@
         }
 
         .spinner {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border: 3px solid rgba(56, 189, 248, 0.1);
-            border-top-color: var(--neon-blue);
+            border-top-color: var(--neon-cyan);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
+            margin: 0 auto 10px;
         }
 
         .result-card {
             display: none;
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             margin-bottom: 25px;
             animation: slideUp 0.4s ease forwards;
-            text-align: left;
         }
 
         .safe-style {
-            background: rgba(74, 222, 128, 0.04);
-            border: 1px solid rgba(74, 222, 128, 0.2);
+            background: rgba(74, 222, 128, 0.03);
+            border: 1px solid rgba(74, 222, 128, 0.15);
         }
 
         .danger-style {
-            background: rgba(248, 113, 113, 0.04);
-            border: 1px solid rgba(248, 113, 113, 0.2);
+            background: rgba(248, 113, 113, 0.03);
+            border: 1px solid rgba(248, 113, 113, 0.15);
         }
 
         .result-header {
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .report-section {
             display: none;
-            background: rgba(3, 7, 18, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(2, 4, 10, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 10px;
-            padding: 18px;
+            padding: 15px;
             margin-bottom: 25px;
             text-align: left;
             animation: slideUp 0.5s ease forwards;
         }
 
         .report-section h4 {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .report-item {
-            padding: 10px 12px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .badge {
-            font-size: 0.7rem;
-            padding: 3px 8px;
+            font-size: 0.68rem;
+            padding: 2px 6px;
             border-radius: 4px;
             font-weight: 700;
         }
 
-        /* Görseldeki En Alt İnce Gri Metin */
+        /* Resmin En Altındaki O Orijinal İnce Yazı */
         .footer-text {
             width: 100%;
-            max-width: 680px;
+            max-width: 660px;
             font-size: 0.72rem;
-            color: #2e3b4e;
+            color: #242f41;
             text-align: center;
             line-height: 1.5;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.1px;
         }
 
         @media (max-width: 600px) {
-            .container { padding: 35px 20px; }
+            .container { padding: 30px 20px; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
-            .search-box input { background: rgba(3, 7, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px; width: 100%; margin-bottom: 8px; }
-            .search-box button { width: 100%; padding: 14px; border-radius: 8px; }
+            .search-box input { background: rgba(2, 4, 10, 0.8); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 12px; width: 100%; margin-bottom: 8px; }
+            .search-box button { width: 100%; padding: 12px; border-radius: 8px; }
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <div class="shield-emoji">🛡️</div>
+            <div class="shield-container">🛡️</div>
             <h1>SİBER KALKAN</h1>
             <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin. Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
         </div>
 
         <div class="search-box">
             <input type="text" id="url-field" placeholder="Analiz edilecek web adresini yapıştırın (Örn: ptt kargo takip sorgula)">
-            <button onclick="siberAnalizBaslat()">TARAMA BAŞLAT</button>
+            <button onclick="siberMotoruCalistir()">TARAMA BAŞLAT</button>
         </div>
 
         <div class="loader" id="loading-zone">
             <div class="spinner"></div>
-            <p style="color: var(--neon-blue); font-size: 0.8rem;" id="loading-text">Yapay sezgisel analiz katmanları çalıştırılıyor...</p>
+            <p style="color: var(--neon-cyan); font-size: 0.78rem;" id="loading-text">Yapay sezgisel analiz katmanları çalıştırılıyor...</p>
         </div>
 
         <div class="result-card" id="status-card">
             <div class="result-header" id="status-title"></div>
-            <p id="status-desc" style="font-size: 0.85rem; line-height: 1.5; color: #cbd5e1;"></p>
+            <p id="status-desc" style="font-size: 0.82rem; line-height: 1.5; color: #cbd5e1;"></p>
         </div>
 
         <div class="report-section" id="report-zone">
@@ -320,7 +339,7 @@
     </div>
 
     <script>
-        async function siberAnalizBaslat() {
+        async function siberMotoruCalistir() {
             const inputElement = document.getElementById('url-field');
             const loader = document.getElementById('loading-zone');
             const loadingText = document.getElementById('loading-text');
@@ -334,7 +353,7 @@
             let urlInput = inputElement.value.trim().toLowerCase();
 
             if (!urlInput) {
-                alert("Lütfen analiz edilecek bir link veya metin girin kanka!");
+                alert("Lütfen analiz edilecek adresi gir kanka!");
                 return;
             }
 
@@ -349,7 +368,7 @@
             let riskSkoru = 0;
             let bulgular = [];
 
-            // 1. Katman: Beyaz Liste Kontrolü
+            // 1. Katman: Kurumsal Resmi Beyaz Liste Doğrulaması
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 setTimeout(() => {
                     loader.style.display = "none";
@@ -357,53 +376,53 @@
                     statusCard.style.display = "block";
                     reportZone.style.display = "block";
                     statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-                    statusDesc.innerText = `${domain} adresi resmi beyaz listededir. Doğrulanmış kurumsal altyapı.`;
+                    statusDesc.innerText = `${domain} adresi resmi beyaz listededir. Güvenle ilerleyebilirsiniz.`;
                     reportList.innerHTML = `
                         <div class="report-item">
-                            <span>Kurumsal Beyaz Liste Doğrulaması</span>
+                            <span>Resmi Kurumsal Beyaz Liste Doğrulaması</span>
                             <span class="badge" style="background: var(--neon-green); color: #000;">GÜVENLİ</span>
                         </div>`;
-                }, 600);
+                }, 500);
                 return;
             }
 
-            // 2. Katman: Siber İstihbarat Veritabanı Tarama
+            // 2. Katman: Küresel Canlı İstihbarat Havuzu Sorgusu
             loadingText.innerText = "Küresel siber istihbarat havuzu sorgulanıyor...";
             const proxy = "https://corsproxy.io/?";
-            const karaListeUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
+            const uzakVeritabanı = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
             
             let karaListedeVarMi = false;
             try {
-                const res = await fetch(`${proxy}${encodeURIComponent(karaListeUrl)}`);
-                if (res.ok) {
-                    const dataText = await res.text();
-                    if (dataText.includes(domain)) {
+                const response = await fetch(`${proxy}${encodeURIComponent(uzakVeritabanı)}`);
+                if (response.ok) {
+                    const txt = await response.text();
+                    if (txt.includes(domain)) {
                         karaListedeVarMi = true;
                         riskSkoru += 60;
                         bulgular.push({ t: "Küresel Oltalama Veritabanı Kara Liste Eşleşmesi", b: "ZARARLI", c: "var(--neon-red)" });
                     }
                 }
             } catch (e) {
-                console.log("Canlı veri havuzuna bağlanılamadı, heuristik analiz devrede.");
+                console.log("Canlı ağ hatası, yerel tarama motoru devraldı.");
             }
 
-            // 3. Katman: Yapay Sezgisel Filtreler (Heuristics)
+            // 3. Katman: Yerel Yapay Sezgisel Filtreler (Zero-Day Analizi)
             loadingText.innerText = "Yapay sezgisel analiz katmanları çalıştırılıyor...";
             const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'edevlet', 'login', 'giris', 'turktekno', 'onay'];
-            let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => urlInput.includes(kelime));
+            let yakalananlar = oltalamaKelimeleri.filter(k => urlInput.includes(k));
 
-            if (yakalananKelimeler.length > 0) {
+            if (yakalananlar.length > 0) {
                 riskSkoru += 50;
-                bulgular.push({ t: `Şüpheli Anahtar Kelime Eşleşmesi (${yakalananKelimeler.join(', ')})`, b: "ŞÜPHELİ", c: "var(--neon-orange)" });
+                bulgular.push({ t: `Şüpheli Kelime Kombinasyonu (${yakalananlar.join(', ')})`, b: "ŞÜPHELİ", c: "var(--neon-orange)" });
             }
 
-            const riskliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.ru', '.tk', '.site'];
-            if (riskliUzantilar.some(u => domain.endsWith(u))) {
+            const jenerikUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.ru', '.tk', '.site'];
+            if (jenerikUzantilar.some(u => domain.endsWith(u))) {
                 riskSkoru += 15;
-                bulgular.push({ t: "Yüksek Siber Risk Taşıyan Alan Adı Uzantısı", b: "UYARI", c: "var(--neon-orange)" });
+                bulgular.push({ t: "Yüksek Riskli Alan Adı Uzantısı Saptandı", b: "UYARI", c: "var(--neon-orange)" });
             }
 
-            // Ekrana Çıktı Verme
+            // Sonuç Raporlama Ekranı
             setTimeout(() => {
                 loader.style.display = "none";
                 statusCard.style.display = "block";
@@ -411,7 +430,7 @@
                 if (riskSkoru >= 50 || karaListedeVarMi) {
                     statusCard.className = "result-card danger-style";
                     statusTitle.innerHTML = `<span style="color: var(--neon-red)">🚨 TEHLİKELİ SİTE / OLTALAMA SAPTANDI</span>`;
-                    statusDesc.innerText = "Siber Kalkan analiz modülleri bu URL yapısında kimlik avı tuzağı veya zararlı yazılım izleri yakaladı. Kesinlikle veri girişi yapmayın.";
+                    statusDesc.innerText = "Siber Kalkan modülleri bu adreste sahte marka taklidi veya oltalama (phishing) yapısı tespit etti. Bilgilerinizi kesinlikle girmeyin.";
                     reportZone.style.display = "block";
                 } else {
                     statusCard.className = "result-card safe-style";
@@ -426,7 +445,7 @@
                             <span class="badge" style="background: ${b.c}; color: #000;">${b.b}</span>
                         </div>`;
                 });
-            }, 700);
+            }, 600);
         }
     </script>
 </body>
