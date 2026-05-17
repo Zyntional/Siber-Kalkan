@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siber Kalkan Core | Canlı Tehdit Avcısı</title>
+    <title>Siber Kalkan Pro | Hibrit Tehdit Avcısı</title>
     
     <style>
         :root {
@@ -50,21 +50,7 @@
         .report-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
         .badge { font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; }
 
-        .cyber-bottom-contact { width: 100%; max-width: 750px; background: rgba(9, 15, 38, 0.8); border: 1px solid rgba(56, 189, 248, 0.15); border-radius: 16px; padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-        .contact-info-text { flex: 1; }
-        .cyber-bottom-contact h3 { font-size: 0.95rem; color: #fff; margin-bottom: 4px; }
-        .cyber-bottom-contact p { color: var(--text-muted); font-size: 0.8rem; }
-        .cyber-mail-btn { background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 12px 20px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.3s; }
-        .cyber-mail-btn:hover { background: var(--neon-blue); color: #060814; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
         .footer { margin-top: 20px; font-size: 0.75rem; color: #4b5563; text-align: center; }
-
-        @media (max-width: 600px) {
-            .container { padding: 20px 15px; }
-            .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
-            .search-box input { background: rgba(4, 6, 18, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
-            .search-box button { width: 100%; padding: 14px; border-radius: 12px; }
-            .cyber-bottom-contact { flex-direction: column; text-align: center; }
-        }
 
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.04); opacity: 1; } }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -76,18 +62,18 @@
     <div class="container">
         <div class="header">
             <div class="icon-shield">🛡️</div>
-            <h1>SİBER KALKAN CORE</h1>
-            <p>Canlı Açık Kaynak Siber İstihbarat Veritabanı ve Hevristik Tarama Motoru.</p>
+            <h1>SİBER KALKAN HİBRİT</h1>
+            <p>Canlı Kara Liste Eşleşmesi ve Sıfırıncı Gün (Zero-Day) Algoritma Kalkanı.</p>
         </div>
 
         <div class="search-box">
-            <input type="text" id="url-input" placeholder="Taranacak web adresi veya URL'yi girin (Örn: ptt.gov.tr)...">
-            <button onclick="canliSiberSorgu()">ANALİZ ET</button>
+            <input type="text" id="url-input" placeholder="Taranacak web adresini girin...">
+            <button onclick="hibritSiberSorgu()">ANALİZ ET</button>
         </div>
 
         <div class="loader" id="loading-zone">
             <div class="spinner"></div>
-            <p style="color: var(--neon-blue); font-size: 0.85rem; font-weight: 600;" id="loading-text">KÜRESEL TEHDİT HAVUZU İNDİRİLİYOR...</p>
+            <p style="color: var(--neon-blue); font-size: 0.85rem; font-weight: 600;" id="loading-text">ÇOK KATMANLI ANALİZ BAŞLATILDI...</p>
         </div>
 
         <div class="result-card" id="status-card">
@@ -96,25 +82,17 @@
         </div>
 
         <div class="report-section" id="report-zone">
-            <h3>🔬 Siber Analiz Katman Bulguları</h3>
+            <h3>🔬 Detaylı Tehdit Analiz Bulguları</h3>
             <div class="report-list" id="report-list"></div>
         </div>
     </div>
 
-    <div class="cyber-bottom-contact">
-        <div class="contact-info-text">
-            <h3>📬 Zararlı URL İhbarı</h3>
-            <p>Siber analiz motoruna katkıda bulunmak için şüpheli linkleri doğrudan bize bildirin.</p>
-        </div>
-        <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Tehdit Raporu" class="cyber-mail-btn">📧 Tehdidi Bildir</a>
-    </div>
-
     <div class="footer">
-       Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Geliştiren: <b>Zyntional.dev</b>
+        Hibrit İstihbarat v6.5 • Geliştiren: <b>Zyntional.dev</b>
     </div>
 
     <script>
-        async function canliSiberSorgu() {
+        async function hibritSiberSorgu() {
             const inputElement = document.getElementById('url-input');
             const loader = document.getElementById('loading-zone');
             const loadingText = document.getElementById('loading-text');
@@ -132,13 +110,11 @@
                 return;
             }
 
-            // Ekran Temizleme
             statusCard.style.display = "none";
             reportZone.style.display = "none";
             loader.style.display = "block";
             reportList.innerHTML = "";
 
-            // URL Temizleme Protokolü
             let temizUrl = urlInput.replace(/^(https?:\/\/)?(www\.)?/, '');
             let domain = temizUrl.split('/')[0];
             let path = temizUrl.replace(domain, '');
@@ -147,92 +123,95 @@
             let bulgular = [];
 
             // =========================================================
-            // KATMAN 1: GERÇEK KURUMSAL BEYAZ LİSTE (False Positive Engeli)
+            // KATMAN 1: MEŞRU BEYAZ LİSTE (Devlet ve Resmi Kurumlar)
             // =========================================================
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 loader.style.display = "none";
-                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "RESMİ BEYAZ LİSTE", "Bu adres devlet kurumu veya onaylı resmi PTT altyapısıdır. Güvenle giriş yapabilirsiniz.");
+                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "RESMİ BEYAZ LİSTE", "Bu adres devlet kurumu veya onaylı kurumsal PTT altyapısıdır.");
                 return;
             }
 
             const devSiteler = ['google.com', 'youtube.com', 'github.com', 'instagram.com', 'twitter.com', 'facebook.com', 'trendyol.com'];
             if (devSiteler.includes(domain)) {
                 loader.style.display = "none";
-                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "KÜRESEL GÜVENLİ", "Adres küresel çapta doğrulanmış meşru dev platformlar listesindedir.");
+                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "KÜRESEL BEYAZ LİSTE", "Adres dünya çapında güvenli kabul edilen dev platformlardandır.");
                 return;
             }
 
             // =========================================================
-            // KATMAN 2: CANLI AÇIK KAYNAK KARA LİSTE SORGUSU (KEY GEREKTİRMEZ)
+            // KATMAN 2: CANLI KARA LİSTE KONTROLÜ
             // =========================================================
-            loadingText.innerText = "KATMAN 2: CANLI KÜRESEL KARA LİSTELER SORGULANIYOR...";
-            
-            // Siber güvenlik topluluklarının GitHub'da canlı güncellediği, bilinen tüm zararlı/oltalama sitelerinin listesi (Uzak veri)
+            loadingText.innerText = "KATMAN 2: KÜRESEL KARA LİSTELER KONTROL EDİLİYOR...";
             const proxyUrl = "https://corsproxy.io/?";
             const blacklistUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
             
-            let karaListedeVarMi = false;
+            let listedeYakalndiMu = false;
 
             try {
                 const response = await fetch(`${proxyUrl}${encodeURIComponent(blacklistUrl)}`);
                 if (response.ok) {
                     const blackListData = await response.text();
-                    
-                    // Gelen devasa metin dosyasının içinde bizim girilen domain geçiyor mu?
                     if (blackListData.includes(domain)) {
-                        karaListedeVarMi = true;
-                        riskSkoru += 80;
+                        listedeYakalndiMu = true;
+                        riskSkoru += 60;
                         bulgular.push({
-                            baslik: "Küresel Tehdit Havuzu Eşleşmesi",
-                            desc: "Bu alan adı (domain), açık kaynaklı siber istihbarat veritabanlarında aktif 'ZARARLI/OLTALAMA' sitesi olarak tescillenmiştir.",
-                            seviye: "KRİTİK",
+                            baslik: "Küresel Kara Liste Sabıka Kaydı",
+                            desc: "Bu alan adı (domain), küresel siber güvenlik topluluklarının canlı phishing veritabanında aktif zararlı olarak listelenmiştir.",
+                            seviye: "KRİTİK TEHDİT",
                             renk: "var(--neon-red)"
                         });
                     }
                 }
             } catch (err) {
-                // İnternet veya proxy kaynaklı bir sorun olursa motor durmasın, yerel zekaya geçsin diye log atıyoruz
-                console.log("Canlı istihbarat havuzuna erişilemedi, yerel motor devrede.");
+                console.log("Canlı listeye şu an erişilemedi, yerel zeka devrede.");
             }
 
             // =========================================================
-            // KATMAN 3: YEREL SEZGİSEL (HEVRİSTİK) ANALİZ MOTORU
+            // KATMAN 3: YEREL AKILLI ALGORİTMA (Sıfırıncı Gün / Senin Sahte Linkler İçin)
             // =========================================================
-            loadingText.innerText = "KATMAN 3: YEREL ALGORİTMA VE DAVRANIŞ ANALİZİ YAPILIYOR...";
+            loadingText.innerText = "KATMAN 3: YEREL HEVRİSTİK KORUMA ÇALIŞTIRILIYOR...";
 
-            const tehlikeliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.work', '.ru', '.net'];
-            if (tehlikeliUzantilar.some(u => domain.endsWith(u))) {
-                riskSkoru += 20;
-                bulgular.push({ baslik: "Şüpheli Uzantı Mimarisi", desc: "Saldırganların kimlik gizlemek için kullandığı maliyetsiz/takipsiz jenerik uzantı.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
-            }
-
-            const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'login', 'turktekno'];
+            // Oltalama kelimeleri listesi
+            const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'edevlet', 'login', 'giris', 'turktekno', 'onay', 'guncelleme'];
             let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => urlInput.includes(kelime));
             
-            if (yakalananKelimeler.length > 0 && (domain.split('.').length > 2 || path.length > 2 || tehlikeliUzantilar.some(u => domain.endsWith(u)))) {
-                riskSkoru += 35;
-                bulgular.push({ baslik: "Oltalama (Phishing) Algoritma Yakalaması", desc: `Linkin alt kırılımlarında veya şüpheli uzantısında kullanıcıyı avlamaya yönelik kelimeler bulundu: (${yakalananKelimeler.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
+            // EĞER site yukarıdaki resmi beyaz listede değilse VE içinde bu kelimelerden biri geçiyorsa BU BİR SAHTE SİTEDİR!
+            if (yakalananKelimeler.length > 0) {
+                riskSkoru += 50; // Direkt barajı aştırıyoruz
+                bulgular.push({ 
+                    baslik: "Yapay Algoritma: Oltalama (Phishing) Yapısı", 
+                    desc: `Bağlantı küresel listelerde olmasa bile, içinde kullanıcıyı kandırmaya yönelik taklit/tuzak kelime barındırıyor: (${yakalananKelimeler.join(', ')})`, 
+                    seviye: "YÜKSEK RİSK", 
+                    renk: "var(--neon-red)" 
+                });
+            }
+
+            // Şüpheli uzantı uzantı cezası
+            const tehlikeliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.work', '.ru', '.net'];
+            if (tehlikeliUzantilar.some(u => domain.endsWith(u))) {
+                riskSkoru += 15;
+                bulgular.push({ baslik: "Şüpheli Jenerik Uzantı", desc: "Takibi zor, maliyetsiz veya şüpheli tescil uzantısı kullanımı.", seviye: "UYARI", renk: "var(--neon-orange)" });
             }
 
             // =========================================================
-            // SONUÇLARI EKRANA YAZDIRMA
+            // SONUÇLARI GÖSTERME
             // =========================================================
             loader.style.display = "none";
             statusCard.style.display = "block";
             reportZone.style.display = "block";
 
-            if (riskSkoru >= 50 || karaListedeVarMi) {
+            if (riskSkoru >= 50 || listedeYakalndiMu) {
                 statusCard.className = "result-card danger-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ SİTE / VİRÜS SAPTANDI</span>`;
-                statusDesc.innerText = "Canlı küresel kara liste havuzları veya yerel siber güvenlik algoritmalarımız bu sitenin tehlikeli olduğunu doğruladı. Bilgilerinizi kesinlikle paylaşmayın.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 DİKKAT: TEHLİKELİ / SAHTE SİTE</span>`;
+                statusDesc.innerText = "Siber Kalkan Hibrit motoru bu adresi engelledi! Site ya küresel kara listelerde kayıtlı ya da yerel algoritmalarımız linkin içindeki tuzağı (Zero-Day Phishing) başarıyla deşifre etti. GİRMEYİN!";
             } else if (riskSkoru > 0 && riskSkoru < 50) {
                 statusCard.className = "result-card warning-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ ADRES ADI</span>`;
-                statusDesc.innerText = "Sitede net bir küresel sabıka kaydı bulunamadı ancak ucuz uzantı veya taklit kelime kombinasyonları yüzünden şüpheli kategorisindedir.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ BAĞLANTI DURUMU</span>`;
+                statusDesc.innerText = "Net bir tehlike imzası saptanamadı fakat standart dışı jenerik uzantılar mevcut. Temkinli olun.";
             } else {
                 statusCard.className = "result-card safe-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ</span>`;
-                statusDesc.innerText = "Siber Kalkan saniyeler içinde canlı küresel tehdit veritabanlarını taradı. Bu adresin herhangi bir suça karışmadığı ve temiz olduğu onaylandı.";
+                statusDesc.innerText = "Siber Kalkan hem canlı listeleri taradı hem de link yapısını analiz etti. Herhangi bir oltalama veya tehdit unsuruna rastlanmadı.";
             }
 
             bulgular.forEach(b => {
@@ -252,7 +231,7 @@
             reportZone.style.display = "block";
             statusCard.className = "result-card safe-style";
             statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-            statusDesc.innerText = `${domain} adresi sistemimiz tarafından beyaz listeye alınmıştır. Muanfiyet durumu aktiftir.`;
+            statusDesc.innerText = `${domain} adresi siber koruma muafiyetindedir. Güvenli bölge.`;
             reportList.innerHTML = `
                 <div class="report-item">
                     <div class="report-top">
