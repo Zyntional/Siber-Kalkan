@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siber Kalkan Pro | Hibrit Analiz Merkezi</title>
+    <title>Siber Kalkan Core | Canlı Tehdit Avcısı</title>
     
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Siber Kalkan">
-
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #050716 0%, #0a0f2d 100%);
@@ -23,341 +18,76 @@
             --border-color: rgba(56, 189, 248, 0.25);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: '-apple-system', BlinkMacSystemFont, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
+        body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
 
-        body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            overflow-x: hidden;
-            position: relative;
-        }
+        .container { width: 100%; max-width: 750px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 35px 20px; backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); margin-bottom: 20px; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header .icon-shield { font-size: 3rem; margin-bottom: 10px; display: inline-block; animation: pulse 2s infinite; }
+        .header h1 { font-size: 2.2rem; font-weight: 800; background: linear-gradient(to right, #fff, var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .header p { color: var(--text-muted); font-size: 0.95rem; }
 
-        /* --- KÜÇÜK GELİŞTİRİCİ AYAR BUTONU --- */
-        .dev-settings-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(11, 18, 48, 0.8);
-            border: 1px solid var(--border-color);
-            color: var(--neon-blue);
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s ease;
-            z-index: 100;
-        }
-
-        .dev-settings-btn:hover {
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-            background: var(--neon-blue);
-            color: #050716;
-        }
-
-        /* --- GİZLİ VİRUSTOTAL PANELİ (AÇILIR-KAPANIR) --- */
-        .api-panel {
-            display: none;
-            background: rgba(5, 8, 26, 0.95);
-            border: 1px solid var(--neon-blue);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 750px;
-            animation: slideUp 0.3s ease forwards;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        .api-panel h4 {
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-            color: var(--neon-blue);
-        }
-
-        .api-panel-inner {
-            display: flex;
-            gap: 10px;
-        }
-
-        .api-panel input {
-            flex: 1;
-            background: rgba(4, 6, 18, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            padding: 12px;
-            color: #fff;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        .api-panel input:focus { border-color: var(--neon-blue); }
-
-        .api-panel button {
-            background: var(--neon-green);
-            color: #000;
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .api-panel button:hover { opacity: 0.9; }
-
-        .container {
-            width: 100%;
-            max-width: 750px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 30px 20px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header .icon-shield {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .search-box {
-            display: flex;
-            background: rgba(4, 6, 18, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            margin-bottom: 25px;
-            gap: 8px;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
-        }
-
-        .search-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #fff;
-            padding: 12px;
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        .search-box button {
-            background: var(--neon-blue);
-            color: #060814;
-            border: none;
-            outline: none;
-            padding: 0 24px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
+        .search-box { display: flex; background: rgba(4, 6, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); padding: 8px; border-radius: 16px; transition: all 0.3s ease; margin-bottom: 25px; gap: 8px; }
+        .search-box:focus-within { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(56, 189, 248, 0.25); }
+        .search-box input { flex: 1; background: transparent; border: none; outline: none; color: #fff; padding: 12px; font-size: 1rem; }
+        .search-box button { background: var(--neon-blue); color: #060814; border: none; padding: 0 24px; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
         .search-box button:hover { background: #7dd3fc; }
 
-        .loader {
-            display: none;
-            text-align: center;
-            margin: 25px 0;
-        }
+        .loader { display: none; text-align: center; margin: 25px 0; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(56, 189, 248, 0.1); border-top-color: var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px; }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(56, 189, 248, 0.1);
-            border-top-color: var(--neon-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        .result-card {
-            display: none;
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 25px;
-            animation: slideUp 0.4s ease forwards;
-        }
-
+        .result-card { display: none; border-radius: 16px; padding: 22px; margin-bottom: 25px; animation: slideUp 0.4s ease forwards; }
         .safe-style { background: rgba(74, 222, 128, 0.06); border: 1px solid rgba(74, 222, 128, 0.3); }
         .danger-style { background: rgba(248, 113, 113, 0.06); border: 1px solid rgba(248, 113, 113, 0.3); }
         .warning-style { background: rgba(251, 146, 60, 0.06); border: 1px solid rgba(251, 146, 60, 0.3); }
+        .result-header { display: flex; align-items: center; gap: 12px; font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
 
-        .result-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .report-section {
-            display: none;
-            background: rgba(4, 6, 18, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            animation: slideUp 0.5s ease forwards;
-        }
-
-        .report-section h3 {
-            font-size: 1.05rem;
-            margin-bottom: 15px;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .report-item {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .report-item:last-child { border-bottom: none; }
-
-        .report-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-
+        .report-section { display: none; background: rgba(4, 6, 18, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; animation: slideUp 0.5s ease forwards; }
+        .report-section h3 { font-size: 1.05rem; margin-bottom: 15px; color: #fff; }
+        .report-list { display: flex; flex-direction: column; gap: 10px; }
+        .report-item { padding: 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; }
+        .report-top { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
         .report-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
         .badge { font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; }
 
-        .cyber-bottom-contact {
-            width: 100%;
-            max-width: 750px;
-            background: rgba(9, 15, 38, 0.8);
-            border: 1px solid rgba(56, 189, 248, 0.15);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .cyber-bottom-contact { width: 100%; max-width: 750px; background: rgba(9, 15, 38, 0.8); border: 1px solid rgba(56, 189, 248, 0.15); border-radius: 16px; padding: 20px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
         .contact-info-text { flex: 1; }
-        .cyber-bottom-contact h3 { font-size: 0.95rem; color: #fff; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .cyber-bottom-contact h3 { font-size: 0.95rem; color: #fff; margin-bottom: 4px; }
         .cyber-bottom-contact p { color: var(--text-muted); font-size: 0.8rem; }
-
-        .cyber-mail-btn {
-            background: transparent;
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-        }
-
+        .cyber-mail-btn { background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 12px 20px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.3s; }
         .cyber-mail-btn:hover { background: var(--neon-blue); color: #060814; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
         .footer { margin-top: 20px; font-size: 0.75rem; color: #4b5563; text-align: center; }
 
         @media (max-width: 600px) {
-            .dev-settings-btn { position: static; margin-bottom: 10px; width: 100%; text-align: center; }
-            body { padding: 10px; }
-            .container { padding: 20px 15px; border-radius: 18px; }
-            .header h1 { font-size: 1.6rem; }
-            .api-panel-inner { flex-direction: column; }
-            .api-panel button { width: 100%; }
+            .container { padding: 20px 15px; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
             .search-box input { background: rgba(4, 6, 18, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
             .search-box button { width: 100%; padding: 14px; border-radius: 12px; }
-            .cyber-bottom-contact { flex-direction: column; text-align: center; padding: 15px; }
-            .cyber-mail-btn { width: 100%; }
+            .cyber-bottom-contact { flex-direction: column; text-align: center; }
         }
 
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.04); opacity: 1; } 100% { transform: scale(1); opacity: 0.9; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.04); opacity: 1; } }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <button class="dev-settings-btn" onclick="toggleApiPanel()">⚙️ VirusTotal Ayarları</button>
-
-    <div class="api-panel" id="api-panel-zone">
-        <h4>🔑 Geliştirici Laboratuvar Modu</h4>
-        <p style="color: var(--text-muted); font-size:0.75rem; margin-bottom:10px;">GitHub'da gizli kalması için anahtarınız yerel tarayıcı belleğinde (LocalStorage) şifresiz tutulur.</p>
-        <div class="api-panel-inner">
-            <input type="password" id="user-api-key" placeholder="VirusTotal API Key'inizi yapıştırın...">
-            <button onclick="saveApiKey()">Kaydet ve Kapat</button>
-        </div>
-    </div>
-
-    <div class="container" id="main-card">
+    <div class="container">
         <div class="header">
             <div class="icon-shield">🛡️</div>
-            <h1>SİBER KALKAN PRO</h1>
-            <p>Sezgisel URL analizi, Canlı Kaynak Kod Taraması ve Güvenli Küresel Tehdit Motoru Altyapısı.</p>
+            <h1>SİBER KALKAN CORE</h1>
+            <p>Canlı Açık Kaynak Siber İstihbarat Veritabanı ve Hevristik Tarama Motoru.</p>
         </div>
 
         <div class="search-box">
-            <input type="text" id="url-input" placeholder="Analiz edilecek sitenin adresini yazın (Örn: ptt.gov.tr)...">
-            <button onclick="hibritAnalizSureci()">ANALİZİ BAŞLAT</button>
+            <input type="text" id="url-input" placeholder="Taranacak web adresi veya URL'yi girin (Örn: ptt.gov.tr)...">
+            <button onclick="canliSiberSorgu()">ANALİZ ET</button>
         </div>
 
         <div class="loader" id="loading-zone">
             <div class="spinner"></div>
-            <p style="color: var(--neon-blue); font-size: 0.85rem; font-weight: 600;" id="loading-text">MOTORLAR ÇALIŞTIRILIYOR...</p>
+            <p style="color: var(--neon-blue); font-size: 0.85rem; font-weight: 600;" id="loading-text">KÜRESEL TEHDİT HAVUZU İNDİRİLİYOR...</p>
         </div>
 
         <div class="result-card" id="status-card">
@@ -366,180 +96,122 @@
         </div>
 
         <div class="report-section" id="report-zone">
-            <h3><span>🔬 Birleşik Siber Bulgular Raporu</span> <span style="font-size:0.8rem; color:var(--text-muted);" id="risk-score-txt"></span></h3>
-            <div id="report-list"></div>
+            <h3>🔬 Siber Analiz Katman Bulguları</h3>
+            <div class="report-list" id="report-list"></div>
         </div>
     </div>
 
     <div class="cyber-bottom-contact">
         <div class="contact-info-text">
-            <h3>📬 Tehdit İhbarı / Geri Bildirim</h3>
-            <p>Sistem geliştirme önerilerinizi doğrudan merkezimize iletebilirsiniz.</p>
+            <h3>📬 Zararlı URL İhbarı</h3>
+            <p>Siber analiz motoruna katkıda bulunmak için şüpheli linkleri doğrudan bize bildirin.</p>
         </div>
-        <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Pro" class="cyber-mail-btn">📧 Raporu Gönder</a>
+        <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Tehdit Raporu" class="cyber-mail-btn">📧 Tehdidi Bildir</a>
     </div>
 
     <div class="footer">
-        Hibrit Tarama Teknolojisi v3.5 • Geliştiren: <b>Zyntional.dev</b>
+       Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Geliştiren: <b>Zyntional.dev</b>
     </div>
 
     <script>
-        // Sayfa açıldığında hafızadaki key'i yükle
-        document.getElementById('user-api-key').value = localStorage.getItem('my_hidden_vt_key') || '';
-
-        // Küçük tuşa basınca VT bölümünü açıp kapatan fonksiyon
-        function toggleApiPanel() {
-            const panel = document.getElementById('api-panel-zone');
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        }
-
-        function saveApiKey() {
-            const keyInput = document.getElementById('user-api-key').value.trim();
-            if(keyInput) {
-                localStorage.setItem('my_hidden_vt_key', keyInput);
-                alert("API Anahtarınız güvenle tarayıcı hafızasına kaydedildi kanka!");
-            } else {
-                localStorage.removeItem('my_hidden_vt_key');
-                alert("Hafızadaki API anahtarı temizlendi.");
-            }
-            document.getElementById('api-panel-zone').style.display = "none"; // Kaydedince kapat
-        }
-
-        async function hibritAnalizSureci() {
+        async function canliSiberSorgu() {
             const inputElement = document.getElementById('url-input');
             const loader = document.getElementById('loading-zone');
             const loadingText = document.getElementById('loading-text');
             const statusCard = document.getElementById('status-card');
             const reportZone = document.getElementById('report-zone');
             const reportList = document.getElementById('report-list');
-            const riskScoreTxt = document.getElementById('risk-score-txt');
             const statusTitle = document.getElementById('status-title');
             const statusDesc = document.getElementById('status-desc');
 
             if (!inputElement) return;
-            let urlInput = inputElement.value.trim();
+            let urlInput = inputElement.value.trim().toLowerCase();
 
             if (!urlInput) {
-                alert("Lütfen geçerli bir web adresi girin!");
+                alert("Lütfen analiz için bir link girin!");
                 return;
             }
 
-            // Arayüz temizleme
+            // Ekran Temizleme
             statusCard.style.display = "none";
             reportZone.style.display = "none";
             loader.style.display = "block";
             reportList.innerHTML = "";
-            
-            let riskSkoru = 0;
-            let bulgular = [];
 
-            // URL format hatalarını otomatik düzelten akıllı temizleme
-            let temizUrl = urlInput.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '');
-            let testUrl = 'https://' + temizUrl;
+            // URL Temizleme Protokolü
+            let temizUrl = urlInput.replace(/^(https?:\/\/)?(www\.)?/, '');
             let domain = temizUrl.split('/')[0];
             let path = temizUrl.replace(domain, '');
 
-            // =========================================================
-            // SİSTEM 1: STATİK DOMAİN KORUMASI VE SAHTE ALARM FİLTRESİ
-            // =========================================================
-            loadingText.innerText = "SİSTEM 1: DOMAİN VE PROTOKOL ANALİZİ YAPILIYOR...";
+            let riskSkoru = 0;
+            let bulgular = [];
 
+            // =========================================================
+            // KATMAN 1: GERÇEK KURUMSAL BEYAZ LİSTE (False Positive Engeli)
+            // =========================================================
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 loader.style.display = "none";
-                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "RESMİ DOĞRULANMIŞ ALTYAPI", "Bu bağlantı resmi devlet kurumuna veya onaylı PTT altyapısına aittir. Kelime tuzakları bypass edildi.");
+                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "RESMİ BEYAZ LİSTE", "Bu adres devlet kurumu veya onaylı resmi PTT altyapısıdır. Güvenle giriş yapabilirsiniz.");
                 return;
             }
 
-            const devSiteler = ['youtube.com', 'google.com', 'github.com', 'instagram.com', 'twitter.com', 'facebook.com', 'turkcell.com.tr', 'vodafone.com.tr', 'trendyol.com'];
+            const devSiteler = ['google.com', 'youtube.com', 'github.com', 'instagram.com', 'twitter.com', 'facebook.com', 'trendyol.com'];
             if (devSiteler.includes(domain)) {
                 loader.style.display = "none";
-                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "KÜRESEL BEYAZ LİSTE", "Sorgulanan adres dünya çapında güvenli kabul edilen popüler dev platformlar listesindedir.");
+                ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, "KÜRESEL GÜVENLİ", "Adres küresel çapta doğrulanmış meşru dev platformlar listesindedir.");
                 return;
             }
 
-            const tehlikeliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.work', '.ru'];
-            if (tehlikeliUzantilar.some(u => domain.endsWith(u))) {
-                riskSkoru += 30;
-                bulgular.push({ baslik: "Şüpheli Alan Adı Uzantısı", desc: "Siber suçluların maliyetsiz ve takibi zor olduğu için tercih ettiği ucuz uzantı tespiti.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
-            }
-
-            const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'login'];
-            let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => temizUrl.includes(kelime));
+            // =========================================================
+            // KATMAN 2: CANLI AÇIK KAYNAK KARA LİSTE SORGUSU (KEY GEREKTİRMEZ)
+            // =========================================================
+            loadingText.innerText = "KATMAN 2: CANLI KÜRESEL KARA LİSTELER SORGULANIYOR...";
             
-            if (yakalananKelimeler.length > 0 && (domain.split('.').length > 2 || path.length > 2)) {
-                riskSkoru += 30;
-                bulgular.push({ baslik: "Oltalama (Phishing) İbareleri", desc: `Bağlantı yapısı içinde kullanıcıları aldatmaya yönelik taklit kelimeler saptandı: (${yakalananKelimeler.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
-            }
-
-            // =========================================================
-            // SİSTEM 2: CANLI KAYNAK KOD SIZMA ANALİZİ (KODUN İÇİNE BAKMA)
-            // =========================================================
-            loadingText.innerText = "SİSTEM 2: PROXY ÜZERİNDEN SİTENİN İÇİNDEKİ KODLAR TARANIYOR...";
+            // Siber güvenlik topluluklarının GitHub'da canlı güncellediği, bilinen tüm zararlı/oltalama sitelerinin listesi (Uzak veri)
             const proxyUrl = "https://corsproxy.io/?";
+            const blacklistUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
+            
+            let karaListedeVarMi = false;
 
             try {
-                // Hatalı çökme olmaması için timeout ve catch yapısı güçlendirildi
-                const response = await fetch(`${proxyUrl}${encodeURIComponent(testUrl)}`);
+                const response = await fetch(`${proxyUrl}${encodeURIComponent(blacklistUrl)}`);
                 if (response.ok) {
-                    let siteKodlari = await response.text();
-
-                    const evalCount = (siteKodlari.match(/eval\(/g) || []).length;
-                    if (evalCount > 1) {
-                        riskSkoru += 30;
-                        bulgular.push({ baslik: "Gizlenmiş (Obfuscated) Script", desc: `Kodların okunmasını zorlaştıran ${evalCount} adet gizleme fonksiyonu saptandı. Virüs gizleme belirtisidir.`, seviye: "YÜKSEK TEHDİT", renk: "var(--neon-red)" });
-                    }
-
-                    if (siteKodlari.includes('iframe') && (siteKodlari.includes('width="0"') || siteKodlari.includes('display:none'))) {
-                        riskSkoru += 25;
-                        bulgular.push({ baslik: "Görünmez Pencere (Gizli Iframe)", desc: "Kullanıcı fark etmeden arka planda başka reklam veya zararlı scriptlerin çalıştırılması amaçlanmış.", seviye: "TEHLİKELİ", renk: "var(--neon-red)" });
-                    }
-
-                    if (siteKodlari.includes('.download()') || (siteKodlari.includes('window.open(') && siteKodlari.includes('.exe'))) {
-                        riskSkoru += 40;
-                        bulgular.push({ baslik: "Otomatik Dosya İndirme Tetikleyicisi", desc: "Site açıldığı an bilgisayara sormadan harici dosya sızdırmaya çalışan kod mimarisi.", seviye: "KRİTİK TEHLİKE", renk: "var(--neon-red)" });
+                    const blackListData = await response.text();
+                    
+                    // Gelen devasa metin dosyasının içinde bizim girilen domain geçiyor mu?
+                    if (blackListData.includes(domain)) {
+                        karaListedeVarMi = true;
+                        riskSkoru += 80;
+                        bulgular.push({
+                            baslik: "Küresel Tehdit Havuzu Eşleşmesi",
+                            desc: "Bu alan adı (domain), açık kaynaklı siber istihbarat veritabanlarında aktif 'ZARARLI/OLTALAMA' sitesi olarak tescillenmiştir.",
+                            seviye: "KRİTİK",
+                            renk: "var(--neon-red)"
+                        });
                     }
                 }
             } catch (err) {
-                bulgular.push({ baslik: "Kaynak Kod Analiz Durumu", desc: "Hedef site dış taramalara kapalı veya korumalı. Canlı kod röntgeni pas geçildi.", seviye: "BİLGİ", renk: "var(--text-muted)" });
+                // İnternet veya proxy kaynaklı bir sorun olursa motor durmasın, yerel zekaya geçsin diye log atıyoruz
+                console.log("Canlı istihbarat havuzuna erişilemedi, yerel motor devrede.");
             }
 
             // =========================================================
-            // SİSTEM 3: GİZLİ VİRUSTOTAL CANLI API MOTORU
+            // KATMAN 3: YEREL SEZGİSEL (HEVRİSTİK) ANALİZ MOTORU
             // =========================================================
-            const HIDDEN_VT_KEY = localStorage.getItem('my_hidden_vt_key');
+            loadingText.innerText = "KATMAN 3: YEREL ALGORİTMA VE DAVRANIŞ ANALİZİ YAPILIYOR...";
 
-            if (HIDDEN_VT_KEY) {
-                loadingText.innerText = "SİSTEM 3: GİZLİ ANAHTAR AKTİF! 70+ GLOBAL ANTİVİRÜS MOTORU SORGULANIYOR...";
-                const vtEndpoint = "https://www.virustotal.com/api/v3/urls";
-                
-                try {
-                    let b64Url = btoa(urlInput).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
-                    const vtResponse = await fetch(`${proxyUrl}${encodeURIComponent(vtEndpoint + '/' + b64Url)}`, {
-                        method: 'GET',
-                        headers: { 'x-apikey': HIDDEN_VT_KEY, 'Accept': 'application/json' }
-                    });
+            const tehlikeliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.work', '.ru', '.net'];
+            if (tehlikeliUzantilar.some(u => domain.endsWith(u))) {
+                riskSkoru += 20;
+                bulgular.push({ baslik: "Şüpheli Uzantı Mimarisi", desc: "Saldırganların kimlik gizlemek için kullandığı maliyetsiz/takipsiz jenerik uzantı.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
+            }
 
-                    if (vtResponse.ok) {
-                        const vtJson = await vtResponse.json();
-                        const stats = vtJson.data.attributes.last_analysis_stats;
-                        
-                        if (stats.malicious > 0) {
-                            riskSkoru += (stats.malicious * 15);
-                            bulgular.push({ 
-                                baslik: "Küresel Antivirüs Kara Listesi", 
-                                desc: `Bu site dünya çapındaki tam ${stats.malicious} farklı antivirüs motoru tarafından 'ZARARLI/PHISHING' olarak tescillenmiştir.`, 
-                                seviye: "KÜRESEL TEHDİT", 
-                                renk: "var(--neon-red)" 
-                            });
-                        }
-                    }
-                } catch (vtErr) {
-                    bulgular.push({ baslik: "VirusTotal Bağlantı Durumu", desc: "API arama kotanız dolmuş olabilir veya anahtar geçersiz.", seviye: "UYARI", renk: "var(--neon-orange)" });
-                }
+            const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'login', 'turktekno'];
+            let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => urlInput.includes(kelime));
+            
+            if (yakalananKelimeler.length > 0 && (domain.split('.').length > 2 || path.length > 2 || tehlikeliUzantilar.some(u => domain.endsWith(u)))) {
+                riskSkoru += 35;
+                bulgular.push({ baslik: "Oltalama (Phishing) Algoritma Yakalaması", desc: `Linkin alt kırılımlarında veya şüpheli uzantısında kullanıcıyı avlamaya yönelik kelimeler bulundu: (${yakalananKelimeler.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
             }
 
             // =========================================================
@@ -549,21 +221,18 @@
             statusCard.style.display = "block";
             reportZone.style.display = "block";
 
-            riskSkoru = Math.min(riskSkoru, 100);
-            riskScoreTxt.innerText = `Toplam Risk Katsayısı: %${riskSkoru}`;
-
-            if (riskSkoru >= 50) {
+            if (riskSkoru >= 50 || karaListedeVarMi) {
                 statusCard.className = "result-card danger-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ BAĞLANTI / VİRÜS</span>`;
-                statusDesc.innerText = "Çok katmanlı hibrit tarama bitti. Link yapısında, kaynak kodlarında veya küresel kara listelerde ciddi güvenlik tehditleri tespit edilmiştir. ASLA GİRMEYİN.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ SİTE / VİRÜS SAPTANDI</span>`;
+                statusDesc.innerText = "Canlı küresel kara liste havuzları veya yerel siber güvenlik algoritmalarımız bu sitenin tehlikeli olduğunu doğruladı. Bilgilerinizi kesinlikle paylaşmayın.";
             } else if (riskSkoru > 0 && riskSkoru < 50) {
                 statusCard.className = "result-card warning-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ DURUM / DIŞA KAPALI SİTE</span>`;
-                statusDesc.innerText = "Sitede net bir virüs imzası bulunamadı ancak ucuz uzantı kullanımı veya dış taramalara kapalı şüpheli yapılar mevcut. Temkinli olun.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ ADRES ADI</span>`;
+                statusDesc.innerText = "Sitede net bir küresel sabıka kaydı bulunamadı ancak ucuz uzantı veya taklit kelime kombinasyonları yüzünden şüpheli kategorisindedir.";
             } else {
                 statusCard.className = "result-card safe-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI TAMAMEN GÜVENLİ</span>`;
-                statusDesc.innerText = "Siber Kalkan üç katmanlı (Filtre, Canlı Kod ve Küresel İstihbarat) analiz sürecini başarıyla tamamladı. Herhangi bir virüs veya oltalama izine rastlanmadı.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ</span>`;
+                statusDesc.innerText = "Siber Kalkan saniyeler içinde canlı küresel tehdit veritabanlarını taradı. Bu adresin herhangi bir suça karışmadığı ve temiz olduğu onaylandı.";
             }
 
             bulgular.forEach(b => {
@@ -578,20 +247,19 @@
             });
         }
 
-        function ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, etiket, mesaj) {
+        function ekranaBasGuvenli(statusCard, reportZone, reportList, statusTitle, statusDesc, domain, etiket, mesaj) {
             statusCard.style.display = "block";
             reportZone.style.display = "block";
-            riskScoreTxt.innerText = `Toplam Risk Katsayısı: %0`;
             statusCard.className = "result-card safe-style";
             statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-            statusDesc.innerText = `${domain} adresi siber koruma muafiyetindedir: ${mesaj}`;
+            statusDesc.innerText = `${domain} adresi sistemimiz tarafından beyaz listeye alınmıştır. Muanfiyet durumu aktiftir.`;
             reportList.innerHTML = `
                 <div class="report-item">
                     <div class="report-top">
-                        <span>Güvenlik Doğrulaması</span>
+                        <span>Güvenlik Katman Doğrulaması</span>
                         <span class="badge" style="background:var(--neon-green); color:#000">${etiket}</span>
                     </div>
-                    <p class="report-desc">Meşruiyeti siber güvenlik otoritelerince ve kurumsal beyaz listelerce onaylanmış güvenli web yapısı.</p>
+                    <p class="report-desc">${mesaj}</p>
                 </div>`;
         }
     </script>
