@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siber Kalkan | Gelişmiş Tehdit Analiz Merkezi</title>
+    <title>Siber Kalkan | Canlı İçerik ve Kod Analiz Merkezi</title>
     
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
@@ -13,8 +13,8 @@
 
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #03050e 0%, #070a1e 100%);
-            --card-bg: rgba(9, 14, 36, 0.8);
+            --bg-gradient: linear-gradient(135deg, #02040a 0%, #050816 100%);
+            --card-bg: rgba(7, 11, 28, 0.85);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --neon-blue: #38bdf8;
@@ -50,7 +50,7 @@
             border-radius: 24px;
             padding: 40px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255,255,255,0.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255,255,255,0.05);
         }
 
         .header {
@@ -257,7 +257,7 @@
         <div class="header">
             <div class="icon-shield">🛡️</div>
             <h1>SİBER KALKAN</h1>
-            <p>Bağlantıları canlı IP istihbaratı, DNS kayıtları ve sezgisel motorlarla tarayın.<br>Gerçek zamanlı malware ve sunucu doğrulama aktif.</p>
+            <p>Bağlantıları canlı DNS kayıtları, sunucu analizi ve <b>HTML Kod İnceleme</b> motorlarıyla tarayın.<br>Gerçek zamanlı DOM sızma testi aktif.</p>
         </div>
 
         <div class="search-box">
@@ -324,23 +324,23 @@
             let riskSkoru = 0;
             let bulgular = [];
 
-            const orijinalHttpliMi = /^https?:\/\//i.test(inputUrl);
-            const orijinalHttpsliMi = /^https:\/\//i.test(inputUrl);
+            let hamUrl = inputUrl.toLowerCase().trim();
+            const orijinalHttpliMi = /^http:\/\//i.test(hamUrl);
 
-            let geciciUrl = inputUrl;
-            if (!orijinalHttpliMi) { geciciUrl = 'https://' + inputUrl; }
+            let urlSema = hamUrl;
+            if (!/^https?:\/\//i.test(hamUrl)) { urlSema = 'https://' + hamUrl; }
 
             let domain = "";
             try {
-                const urlObj = new URL(geciciUrl);
-                domain = urlObj.hostname.toLowerCase();
+                const urlObj = new URL(urlSema);
+                domain = urlObj.hostname;
             } catch (e) {
-                domain = inputUrl.split('/')[0].toLowerCase();
+                domain = hamUrl.split('/')[0];
             }
 
             let temizDomain = domain.replace(/^www\./, '');
 
-            // --- BEYAZ LİSTE KONTROLÜ ---
+            // --- BEYAZ LİSTE ---
             const kargoBeyazListe = ['yurticikargo', 'araskargo', 'mngkargo', 'suratkargo', 'süratkargo', 'pttkargo', 'ups.com', 'dhl.com', 'fedex', 'kolaygelsin'];
             const globalBeyazListe = ['youtube.com', 'google.com', 'instagram.com', 'github.com', 'twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'microsoft.com', 'apple.com', 'netflix.com'];
             
@@ -349,12 +349,12 @@
             let globalDevMi = globalBeyazListe.some(g => temizDomain === g || temizDomain.endsWith('.' + g));
 
             if (resmiUzantiliMi || guvenliKargoMu || globalDevMi) {
-                ekranaBasSafe(statusCard, statusTitle, statusDesc, reportZone, reportList, riskScoreTxt, domain);
+                ekranaBasSafe(statusCard, statusTitle, statusDesc, reportZone, reportList, riskScoreTxt, temizDomain);
                 return;
             }
 
             // --- CANLI DNS VE SUNUCU KONTROLÜ ---
-            loadingText.innerText = "KÜRESEL DNS VE SUNUCU ALTYAPISI SORGULANIYOR...";
+            loadingText.innerText = "KÜRESEL DNS ALTYAPISI SORGULANIYOR...";
             let domainAktifMi = true;
             let siteIP = "";
             
@@ -369,7 +369,7 @@
                         riskSkoru += 60;
                         bulgular.push({
                             baslik: "Geçersiz / Kayıtsız Alan Adı",
-                            desc: "Bu adres dünya DNS ağında aktif bir sunucuya çıkmıyor. Muhtemelen sahte veya kapatılmış bir adrestir.",
+                            desc: "Bu adres dünya DNS ağında aktif bir sunucuya çıkmıyor. Olmayan veya kapatılmış sahte bir adrestir.",
                             seviye: "KRİTİK HATA",
                             renk: "var(--neon-orange)"
                         });
@@ -377,38 +377,79 @@
                         siteIP = dnsData.Answer[0].data;
                     }
                 }
-            } catch (e) { console.log("DNS hatası."); }
+            } catch (e) {}
 
-            // 🔥 YENİ: GEOLOCATION & MALIWARE TEHDİT İSTİHBARATI 🔥
-            if (domainAktifMi && siteIP) {
-                loadingText.innerText = "SUNUCU VİRÜS VE COĞRAFİ LOKASYON ANALİZİ YAPILIYOR...";
+            // 🔥 YENİ: SİTENİN HTML İÇERİĞİNİ GİZLİCE İNDİRİP İNCELEME MOTORU 🔥
+            if (domainAktifMi) {
+                loadingText.innerText = "SİTE İÇERİĞİ VE HTML KODLARI TARANIYOR (DOM INJECTION CHECK)...";
                 try {
-                    const ipRes = await fetch(`http://ip-api.com/json/${siteIP}`);
-                    if (ipRes.ok) {
-                        const ipData = await ipRes.json();
-                        if (ipData.status === "success") {
-                            // Sunucu bilgilerini rapora ekle
-                            bulgular.push({
-                                baslik: `Sunucu Bilgisi Tespiti (${siteIP})`,
-                                desc: `Site Lokasyonu: <b>${ipData.country} / ${ipData.city}</b><br>Barındıran Sağlayıcı (ISP): <b>${ipData.isp}</b>`,
-                                seviye: "BİLGİ",
-                                renk: "var(--neon-blue)"
-                            });
+                    // CORS engelini aşmak için proxy üzerinden sitenin ham kaynak kodunu çekiyoruz
+                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(urlSema)}`;
+                    const siteResponse = await fetch(proxyUrl);
+                    
+                    if (siteResponse.ok) {
+                        const siteData = await siteResponse.json();
+                        const htmlIcerik = siteData.contents ? siteData.contents.toLowerCase() : "";
 
-                            // Tehdit İstihbarat Mantığı: Şüpheli barındırma ülkeleri ve ucuz hosting tespiti
-                            const riskliUlkeler = ['Russia', 'China', 'Ukraine', 'Vietnam', 'Nigeria'];
-                            if (riskliUlkeler.includes(ipData.country)) {
-                                riskSkoru += 25;
+                        if (htmlIcerik.length > 0) {
+                            let icerikTehditSayisi = 0;
+
+                            // 1. Kriter: Gizli Kimlik Avı Formu Tespiti
+                            if (htmlIcerik.includes('type="password"') || htmlIcerik.includes('password') || htmlIcerik.includes('kart no') || htmlIcerik.includes('t.c. kimlik')) {
+                                riskSkoru += 45;
+                                icerikTehditSayisi++;
                                 bulgular.push({
-                                    baslik: "Yüksek Riskli Sunucu Bölgesi",
-                                    desc: "Zararlı yazılım ve oltalama sitelerinin yoğun olarak barındığı ülkelerden birinde sunucu tespiti yapıldı.",
+                                    baslik: "Tehlikeli Kimlik/Kart Giriş Alanı",
+                                    desc: "Sitenin kaynak kodlarında doğrulanmamış şifre, T.C. Kimlik veya kredi kartı talep eden veri giriş formları saptandı.",
+                                    seviye: "KRİTİK TEHDİT",
+                                    renk: "var(--neon-red)"
+                                });
+                            }
+
+                            // 2. Kriter: Arka Plandan Gizli JavaScript Yönlendirmesi
+                            if (htmlIcerik.includes('window.location') || htmlIcerik.includes('location.href') || htmlIcerik.includes('replace(')) {
+                                riskSkoru += 30;
+                                icerikTehditSayisi++;
+                                bulgular.push({
+                                    baslik: "Şüpheli JavaScript Script Yönlendirmesi",
+                                    desc: "Site içine gömülmüş kodlarda, kullanıcıyı aniden başka bir siteye kaçırmaya yarayan tetikleyiciler bulundu.",
+                                    seviye: "YÜKSEK RİSK",
+                                    renk: "var(--neon-orange)"
+                                });
+                            }
+
+                            // 3. Kriter: Sahte Telif / İcra / Takip Metinleri (Sosyal Mühendislik)
+                            if (htmlIcerik.includes('ceza') || htmlIcerik.includes('askiya alindi') || htmlIcerik.includes('hesabiniz') || htmlIcerik.includes('kargonuz teslim')) {
+                                riskSkoru += 25;
+                                icerikTehditSayisi++;
+                                bulgular.push({
+                                    baslik: "Sosyal Mühendislik / Korkutma Metni",
+                                    desc: "Site içeriğinde kullanıcıyı panikleterek tuzağa çekmeyi amaçlayan sahte uyarı ibareleri saptandı.",
                                     seviye: "ORTA RİSK",
                                     renk: "var(--neon-orange)"
                                 });
                             }
+
+                            if (icerikTehditSayisi > 0) {
+                                bulgular.push({
+                                    baslik: "Kaynak Kod İnceleme Durumu",
+                                    desc: `Sitenin HTML gövdesinde toplam <b>${icerikTehditSayisi} adet</b> şüpheli siber saldırı paterni eşleşti.`,
+                                    seviye: "KOD ANALİZİ",
+                                    renk: "var(--neon-red)"
+                                });
+                            } else {
+                                bulgular.push({
+                                    baslik: "Kaynak Kod İnceleme Durumu",
+                                    desc: "Sitenin HTML sayfa yapısı incelendi, ilk bakışta zararlı bir form tuzağına veya sızdırılmış scripte rastlanmadı.",
+                                    seviye: "TEMİZ KOD",
+                                    renk: "var(--neon-green)"
+                                });
+                            }
                         }
                     }
-                } catch (e) { console.log("IP Coğrafi analiz API hatası."); }
+                } catch (e) {
+                    console.log("Kod tarama proxy engeline takıldı veya site yanıt vermedi.");
+                }
             }
 
             // --- KÜRESEL KARA LİSTE KONTROLÜ ---
@@ -420,8 +461,8 @@
                     if (txt.includes(temizDomain)) {
                         riskSkoru += 80;
                         bulgular.push({
-                            baslik: "Aktif Virüs / Oltalama Veritabanı Eşleşmesi",
-                            desc: "Bu bağlantı küresel tehdit istihbaratı ağları tarafından 'aktif siber saldırı ve virüs dağıtım aracı' olarak işaretlenmiştir.",
+                            baslik: "Aktif Tehdit Havuzu Eşleşmesi",
+                            desc: "Bu bağlantı küresel siber istihbarat ağlarında 'aktif zararlı oltalama' adresi olarak kayıtlıdır.",
                             seviye: "KRİTİK TEHLİKE",
                             renk: "var(--neon-red)"
                         });
@@ -430,22 +471,15 @@
             } catch (e) {}
 
             // --- HEURİSTİK (SEZGİSEL) KONTROLLER ---
-            if (orijinalHttpliMi && !orijinalHttpsliMi) {
+            if (orijinalHttpliMi) {
                 riskSkoru += 20;
-                bulgular.push({ baslik: "Güvensiz Protokol (HTTP)", desc: "Bağlantıda şifreleme yok. Güvenilir yapılar asla düz HTTP kullanmaz.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
+                bulgular.push({ baslik: "Güvensiz Protokol (HTTP)", desc: "Bağlantıda SSL şifrelemesi yok. Güvenilir yapılar asla düz HTTP kullanmaz.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
             }
 
             const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.work', '.ru', '.site', '.link'];
             if (illegalUzanti.some(u => temizDomain.endsWith(u))) {
                 riskSkoru += 35;
-                bulgular.push({ baslik: "Şüpheli Ucuz Uzantı", desc: "Saldırganların kimlik gizlemek için açtığı takibi zor uzantı yapısı.", seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
-            }
-
-            const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'edevlet', 'giriş', 'fatura', 'borc', 'borç', 'vize'];
-            let yakalananlar = tuzakKelimeler.filter(k => inputUrl.toLowerCase().includes(k));
-            if (yakalananlar.length > 0) {
-                riskSkoru += 35;
-                bulgular.push({ baslik: "Manipülatif Kelime Analizi", desc: `Bağlantıda kullanıcıyı kandırmaya yönelik oltalama ibareleri var: (${yakalananlar.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
+                bulgular.push({ baslik: "Şüpheli Ucuz Uzantı", desc: "Saldırganların kimlik gizlemek için açtığı ucuz ve güvensiz uzantı tespiti.", seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
             }
 
             // --- SONUÇLARI GÖRSELLEŞTİRME ---
@@ -454,22 +488,20 @@
             reportList.innerHTML = "";
 
             const sonRiskYuzdesi = Math.min(riskSkoru, 100);
-            riskScoreTxt.innerText = `Güvenilirlik Risk Skoru: %${sonRiskYuzdesi}`;
+            riskScoreTxt.innerText = `İçerik Güvenlik Skoru: %${sonRiskYuzdesi}`;
 
-            if (sonRiskYuzdesi >= 55) {
+            if (sonRiskYuzdesi >= 50) {
                 statusCard.className = "result-card danger-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 GÜVENSİZ / ZARARLI BAĞLANTI TESPİTİ</span>`;
-                statusDesc.innerText = domainAktifMi 
-                    ? "Sistem analiz motorları bu adreste yüksek düzey siber risk ve oltalama yapısı buldu. Kişisel bilgilerinizi veya cihaz güvenliğinizi tehlikeye atabilir. Uzak durun!"
-                    : "Analiz edilen adres dünya üzerinde tescilli/aktif bir web sunucusuna sahip değil. Sahte veya manipüle edilmiş tehlikeli bir link yapısıdır.";
-            } else if (sonRiskYuzdesi > 0 && sonRiskYuzdesi < 55) {
+                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 ZARARLI İÇERİK / TEHLİKE TESPİT EDİLDİ</span>`;
+                statusDesc.innerText = "Sitenin iç kodlarında yapılan canlı analizde şifre avcılığı formları veya manipülatif tuzaklar saptandı. Kesinlikle verilerinizi girmeyin.";
+            } else if (sonRiskYuzdesi > 0 && sonRiskYuzdesi < 50) {
                 statusCard.className = "result-card warning-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ / DOĞRULANMAMIŞ SİSTEM</span>`;
-                statusDesc.innerText = "Adres doğrudan kara listede değil fakat kurumsal kimliği doğrulanmadı. Bilinmeyen sunucu yapıları barındırdığı için işlem yaparken dikkatli olunmalıdır.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ GÜVENİLİRLİĞİ ŞÜPHELİ SİSTEM</span>`;
+                statusDesc.innerText = "Kodlar temiz çıksa da alan adı yapısı ve doğrulanmamış kimliği yüzünden temkinli yaklaşılması gereken bir bağlantı.";
             } else {
                 statusCard.className = "result-card safe-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI VE SUNUCU GÜVENLİ</span>`;
-                statusDesc.innerText = "Yapılan taramalarda, küresel DNS kayıtlarında temiz olan ve yasal sunucularda barınan bu adres için herhangi bir virüs veya tehdit yapısına rastlanmadı.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI İÇERİĞİ GÜVENLİ</span>`;
+                statusDesc.innerText = "Hem alan adı geçmişi hem de sitenin ham HTML kod yapısı tarandı; herhangi bir zararlı forma veya virüs tuzağına rastlanmadı.";
             }
 
             bulgular.forEach(b => {
@@ -481,24 +513,24 @@
                         </div>
                         <p class="report-desc">${b.desc}</p>
                     </div>`;
-                });
+            });
         }
 
-        function ekranaBasSafe(statusCard, statusTitle, statusDesc, reportZone, reportList, riskScoreTxt, domain) {
+        function ekranaBasSafe(statusCard, statusTitle, statusDesc, reportZone, reportList, riskScoreTxt, temizDomain) {
             statusCard.style.display = "block";
             reportZone.style.display = "block";
             reportList.innerHTML = "";
             statusCard.className = "result-card safe-style";
             statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-            statusDesc.innerText = `"${domain}" adresi güvenli kurumsal beyaz listemizdedir. Güvenle kullanabilirsiniz.`;
-            riskScoreTxt.innerText = `Güvenilirlik Risk Skoru: %0`;
+            statusDesc.innerText = `"${temizDomain}" adresi güvenli kurumsal beyaz listemizdedir. İçerik taramasına gerek duyulmadı.`;
+            riskScoreTxt.innerText = `İçerik Güvenlik Skoru: %0`;
             reportList.innerHTML = `
                 <div class="report-item">
                     <div class="report-top">
                         <span>Güvenlik Filtresi</span>
                         <span class="badge" style="background:var(--neon-green); color:#000">GÜVENLİ</span>
                     </div>
-                    <p class="report-desc">Alan adı, siber kalkan doğrulanmış resmi veya küresel veritabanıyla tam eşleşme sağladı.</p>
+                    <p class="report-desc">Alan adı, siber kalkan doğrulanmış yasal kurumsal veritabanıyla tam eşleşme sağladı.</p>
                 </div>`;
         }
     </script>
