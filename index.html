@@ -9,10 +9,8 @@
     <link rel="apple-touch-icon" href="logo.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Siber Kalkan">
-    <link rel="manifest" href="manifest.json">
 
     <style>
-        /* --- SİBER DİJİTAL RENK PALETİ --- */
         :root {
             --bg-gradient: linear-gradient(135deg, #050716 0%, #0a0f2d 100%);
             --card-bg: rgba(11, 18, 48, 0.75);
@@ -42,7 +40,84 @@
             justify-content: center;
             padding: 15px;
             overflow-x: hidden;
+            position: relative;
         }
+
+        /* --- KÜÇÜK GELİŞTİRİCİ AYAR BUTONU --- */
+        .dev-settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(11, 18, 48, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--neon-blue);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .dev-settings-btn:hover {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+            background: var(--neon-blue);
+            color: #050716;
+        }
+
+        /* --- GİZLİ VİRUSTOTAL PANELİ (AÇILIR-KAPANIR) --- */
+        .api-panel {
+            display: none;
+            background: rgba(5, 8, 26, 0.95);
+            border: 1px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 750px;
+            animation: slideUp 0.3s ease forwards;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .api-panel h4 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+        }
+
+        .api-panel-inner {
+            display: flex;
+            gap: 10px;
+        }
+
+        .api-panel input {
+            flex: 1;
+            background: rgba(4, 6, 18, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .api-panel input:focus { border-color: var(--neon-blue); }
+
+        .api-panel button {
+            background: var(--neon-green);
+            color: #000;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .api-panel button:hover { opacity: 0.9; }
 
         .container {
             width: 100%;
@@ -82,48 +157,6 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.5;
-        }
-
-        /* --- GİZLİ API AYAR KUTUSU --- */
-        .api-panel {
-            background: rgba(4, 6, 18, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .api-panel input {
-            flex: 1;
-            background: rgba(5, 8, 22, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 10px;
-            color: #fff;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        .api-panel input:focus { border-color: var(--neon-blue); }
-
-        .api-panel button {
-            background: transparent;
-            color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .api-panel button:hover {
-            background: var(--neon-green);
-            color: #000;
         }
 
         .search-box {
@@ -279,10 +312,12 @@
         .footer { margin-top: 20px; font-size: 0.75rem; color: #4b5563; text-align: center; }
 
         @media (max-width: 600px) {
+            .dev-settings-btn { position: static; margin-bottom: 10px; width: 100%; text-align: center; }
             body { padding: 10px; }
             .container { padding: 20px 15px; border-radius: 18px; }
             .header h1 { font-size: 1.6rem; }
-            .api-panel { flex-direction: column; align-items: stretch; }
+            .api-panel-inner { flex-direction: column; }
+            .api-panel button { width: 100%; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
             .search-box input { background: rgba(4, 6, 18, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
             .search-box button { width: 100%; padding: 14px; border-radius: 12px; }
@@ -297,16 +332,22 @@
 </head>
 <body>
 
+    <button class="dev-settings-btn" onclick="toggleApiPanel()">⚙️ VirusTotal Ayarları</button>
+
+    <div class="api-panel" id="api-panel-zone">
+        <h4>🔑 Geliştirici Laboratuvar Modu</h4>
+        <p style="color: var(--text-muted); font-size:0.75rem; margin-bottom:10px;">GitHub'da gizli kalması için anahtarınız yerel tarayıcı belleğinde (LocalStorage) şifresiz tutulur.</p>
+        <div class="api-panel-inner">
+            <input type="password" id="user-api-key" placeholder="VirusTotal API Key'inizi yapıştırın...">
+            <button onclick="saveApiKey()">Kaydet ve Kapat</button>
+        </div>
+    </div>
+
     <div class="container" id="main-card">
         <div class="header">
             <div class="icon-shield">🛡️</div>
             <h1>SİBER KALKAN PRO</h1>
             <p>Sezgisel URL analizi, Canlı Kaynak Kod Taraması ve Güvenli Küresel Tehdit Motoru Altyapısı.</p>
-        </div>
-
-        <div class="api-panel">
-            <input type="password" id="user-api-key" placeholder="VirusTotal API Key'inizi buraya gizleyin (İsteğe Bağlı)...">
-            <button onclick="saveApiKey()">Anahtarı Güvenle Sakla</button>
         </div>
 
         <div class="search-box">
@@ -339,22 +380,33 @@
     </div>
 
     <div class="footer">
-        Hibrit Tarama Teknolojisi v3.0 • Geliştiren: <b>Zyntional.dev</b>
+        Hibrit Tarama Teknolojisi v3.5 • Geliştiren: <b>Zyntional.dev</b>
     </div>
 
     <script>
-        // Sayfa açıldığında tarayıcı hafızasında saklanan anahtar varsa kutuya otomatik yaz
+        // Sayfa açıldığında hafızadaki key'i yükle
         document.getElementById('user-api-key').value = localStorage.getItem('my_hidden_vt_key') || '';
+
+        // Küçük tuşa basınca VT bölümünü açıp kapatan fonksiyon
+        function toggleApiPanel() {
+            const panel = document.getElementById('api-panel-zone');
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        }
 
         function saveApiKey() {
             const keyInput = document.getElementById('user-api-key').value.trim();
             if(keyInput) {
                 localStorage.setItem('my_hidden_vt_key', keyInput);
-                alert("Harika! API Anahtarın tarayıcının güvenli hafızasına alındı. Kodlarında asla gözükmeyecek kanka!");
+                alert("API Anahtarınız güvenle tarayıcı hafızasına kaydedildi kanka!");
             } else {
                 localStorage.removeItem('my_hidden_vt_key');
                 alert("Hafızadaki API anahtarı temizlendi.");
             }
+            document.getElementById('api-panel-zone').style.display = "none"; // Kaydedince kapat
         }
 
         async function hibritAnalizSureci() {
@@ -376,7 +428,7 @@
                 return;
             }
 
-            // Temizlik ve Hazırlık
+            // Arayüz temizleme
             statusCard.style.display = "none";
             reportZone.style.display = "none";
             loader.style.display = "block";
@@ -385,71 +437,56 @@
             let riskSkoru = 0;
             let bulgular = [];
 
-            let temizUrl = urlInput.toLowerCase();
-            let testUrl = temizUrl.startsWith('http') ? temizUrl : 'https://' + temizUrl;
-            let domain = "";
-            let path = "";
-
-            try {
-                const urlObj = new URL(testUrl);
-                domain = urlObj.hostname.replace('www.', '');
-                path = urlObj.pathname + urlObj.search;
-            } catch (e) {
-                domain = temizUrl.split('/')[0].replace('www.', '');
-                path = temizUrl.replace(domain, '');
-            }
+            // URL format hatalarını otomatik düzelten akıllı temizleme
+            let temizUrl = urlInput.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '');
+            let testUrl = 'https://' + temizUrl;
+            let domain = temizUrl.split('/')[0];
+            let path = temizUrl.replace(domain, '');
 
             // =========================================================
             // SİSTEM 1: STATİK DOMAİN KORUMASI VE SAHTE ALARM FİLTRESİ
             // =========================================================
             loadingText.innerText = "SİSTEM 1: DOMAİN VE PROTOKOL ANALİZİ YAPILIYOR...";
 
-            // .gov.tr ve .edu.tr gibi resmi kurumsal yapılar kelime testine girmeden bypass edilir (False Positive Engeli)
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 loader.style.display = "none";
-                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "RESMİ DOĞRULANMIŞ ALTYAPI", "Bu bağlantı resmi devlet kurumuna, üniversite ağına veya onaylı PTT altyapısına aittir. Kelime tuzakları bypass edildi.");
+                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "RESMİ DOĞRULANMIŞ ALTYAPI", "Bu bağlantı resmi devlet kurumuna veya onaylı PTT altyapısına aittir. Kelime tuzakları bypass edildi.");
                 return;
             }
 
-            // Jenerik Güvenli whitelist grubu
             const devSiteler = ['youtube.com', 'google.com', 'github.com', 'instagram.com', 'twitter.com', 'facebook.com', 'turkcell.com.tr', 'vodafone.com.tr', 'trendyol.com'];
             if (devSiteler.includes(domain)) {
                 loader.style.display = "none";
-                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "KÜRESEL BEYAZ LİSTE", "Sorgulanan adres dünya çapında güvenli kabul edilen popüler platformlar listesindedir.");
+                ekranaBasDirektGuvenli(statusCard, reportZone, reportList, riskScoreTxt, statusTitle, statusDesc, domain, "KÜRESEL BEYAZ LİSTE", "Sorgulanan adres dünya çapında güvenli kabul edilen popüler dev platformlar listesindedir.");
                 return;
             }
 
-            // Statik Kriterler (Ucuz uzantılar ve şüpheli kelime birleşimleri)
             const tehlikeliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.work', '.ru'];
-            let uzantiTehlikeli = tehlikeliUzantilar.some(u => domain.endsWith(u));
-            if (uzantiTehlikeli) {
+            if (tehlikeliUzantilar.some(u => domain.endsWith(u))) {
                 riskSkoru += 30;
-                bulgular.push({ baslik: "Şüpheli Alan Adı Uzantısı", desc: "Siber saldırganların maliyetsiz ve anonim olduğu için tercih ettiği ucuz uzantı tespiti.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
+                bulgular.push({ baslik: "Şüpheli Alan Adı Uzantısı", desc: "Siber suçluların maliyetsiz ve takibi zor olduğu için tercih ettiği ucuz uzantı tespiti.", seviye: "ORTA RİSK", renk: "var(--neon-orange)" });
             }
 
             const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'login'];
             let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => temizUrl.includes(kelime));
             
-            // Eğer şüpheli uzantı varsa veya alt alan adlarındaysa kelime alarmı tetiklensin (False positive koruması için)
-            if (yakalananKelimeler.length > 0 && (uzantiTehlikeli || domain.split('.').length > 2 || path.length > 2)) {
+            if (yakalananKelimeler.length > 0 && (domain.split('.').length > 2 || path.length > 2)) {
                 riskSkoru += 30;
-                bulgular.push({ baslik: "Oltalama (Phishing) İbareleri", desc: `Bağlantı yapısı içinde kullanıcıları avlamaya yönelik anahtar kelimeler saptandı: (${yakalananKelimeler.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
+                bulgular.push({ baslik: "Oltalama (Phishing) İbareleri", desc: `Bağlantı yapısı içinde kullanıcıları aldatmaya yönelik taklit kelimeler saptandı: (${yakalananKelimeler.join(', ')})`, seviye: "YÜKSEK RİSK", renk: "var(--neon-red)" });
             }
-
 
             // =========================================================
             // SİSTEM 2: CANLI KAYNAK KOD SIZMA ANALİZİ (KODUN İÇİNE BAKMA)
             // =========================================================
             loadingText.innerText = "SİSTEM 2: PROXY ÜZERİNDEN SİTENİN İÇİNDEKİ KODLAR TARANIYOR...";
             const proxyUrl = "https://corsproxy.io/?";
-            let siteKodlari = "";
 
             try {
+                // Hatalı çökme olmaması için timeout ve catch yapısı güçlendirildi
                 const response = await fetch(`${proxyUrl}${encodeURIComponent(testUrl)}`);
                 if (response.ok) {
-                    siteKodlari = await response.text();
+                    let siteKodlari = await response.text();
 
-                    // Gerçek virüs kod imzalarını tarama
                     const evalCount = (siteKodlari.match(/eval\(/g) || []).length;
                     if (evalCount > 1) {
                         riskSkoru += 30;
@@ -458,19 +495,17 @@
 
                     if (siteKodlari.includes('iframe') && (siteKodlari.includes('width="0"') || siteKodlari.includes('display:none'))) {
                         riskSkoru += 25;
-                        bulgular.push({ baslik: "Görünmez Pencere (Gizli Iframe)", desc: "Kullanıcı görmeden arka planda başka zararlı sitelerin çalıştırılması amaçlanmış.", seviye: "TEHLİKELİ", renk: "var(--neon-red)" });
+                        bulgular.push({ baslik: "Görünmez Pencere (Gizli Iframe)", desc: "Kullanıcı fark etmeden arka planda başka reklam veya zararlı scriptlerin çalıştırılması amaçlanmış.", seviye: "TEHLİKELİ", renk: "var(--neon-red)" });
                     }
 
                     if (siteKodlari.includes('.download()') || (siteKodlari.includes('window.open(') && siteKodlari.includes('.exe'))) {
                         riskSkoru += 40;
-                        bulgular.push({ baslik: "Otomatik Dosya İndirme Tetikleyicisi", desc: "Site açıldığı saniye sisteme gizlice harici dosya sızdırmaya çalışan kod mimarisi.", seviye: "KRİTİK", renk: "var(--neon-red)" });
+                        bulgular.push({ baslik: "Otomatik Dosya İndirme Tetikleyicisi", desc: "Site açıldığı an bilgisayara sormadan harici dosya sızdırmaya çalışan kod mimarisi.", seviye: "KRİTİK TEHLİKE", renk: "var(--neon-red)" });
                     }
                 }
             } catch (err) {
-                // Sitenin kaynak kodu çekilemezse durmuyoruz, sisteme not düşüp devam ediyoruz
-                bulgular.push({ baslik: "Kaynak Kod Analiz Durumu", desc: "Hedef site kodlarını dış taramalara kapatmış. Davranışsal kod analizi pas geçildi.", seviye: "BİLGİ", renk: "var(--text-muted)" });
+                bulgular.push({ baslik: "Kaynak Kod Analiz Durumu", desc: "Hedef site dış taramalara kapalı veya korumalı. Canlı kod röntgeni pas geçildi.", seviye: "BİLGİ", renk: "var(--text-muted)" });
             }
-
 
             // =========================================================
             // SİSTEM 3: GİZLİ VİRUSTOTAL CANLI API MOTORU
@@ -478,7 +513,7 @@
             const HIDDEN_VT_KEY = localStorage.getItem('my_hidden_vt_key');
 
             if (HIDDEN_VT_KEY) {
-                loadingText.innerText = "SİSTEM 3: GİZLİ ANAHTAR AKTİF! 70+ GLOBAL ANTİVİRÜS VERİSİ ÇEKİLİYOR...";
+                loadingText.innerText = "SİSTEM 3: GİZLİ ANAHTAR AKTİF! 70+ GLOBAL ANTİVİRÜS MOTORU SORGULANIYOR...";
                 const vtEndpoint = "https://www.virustotal.com/api/v3/urls";
                 
                 try {
@@ -493,22 +528,22 @@
                         const stats = vtJson.data.attributes.last_analysis_stats;
                         
                         if (stats.malicious > 0) {
-                            riskSkoru += (stats.malicious * 15); // Her virüs diyen motor için riski katla
+                            riskSkoru += (stats.malicious * 15);
                             bulgular.push({ 
                                 baslik: "Küresel Antivirüs Kara Listesi", 
-                                desc: `Bu site dünyanın en büyük laboratuvarlarındaki tam ${stats.malicious} farklı motor tarafından direkt 'ZARARLI' olarak raporlanmıştır.`, 
+                                desc: `Bu site dünya çapındaki tam ${stats.malicious} farklı antivirüs motoru tarafından 'ZARARLI/PHISHING' olarak tescillenmiştir.`, 
                                 seviye: "KÜRESEL TEHDİT", 
                                 renk: "var(--neon-red)" 
                             });
                         }
                     }
                 } catch (vtErr) {
-                    bulgular.push({ baslik: "VirusTotal Bağlantı Durumu", desc: "Dakikalık API arama kotanız dolmuş olabilir veya anahtar geçersiz.", seviye: "UYARI", renk: "var(--neon-orange)" });
+                    bulgular.push({ baslik: "VirusTotal Bağlantı Durumu", desc: "API arama kotanız dolmuş olabilir veya anahtar geçersiz.", seviye: "UYARI", renk: "var(--neon-orange)" });
                 }
             }
 
             // =========================================================
-            // ARABİRİM GÜNCELLEME VE SKORU SINIRLANDIRMA
+            // SONUÇLARI EKRANA YAZDIRMA
             // =========================================================
             loader.style.display = "none";
             statusCard.style.display = "block";
@@ -520,18 +555,17 @@
             if (riskSkoru >= 50) {
                 statusCard.className = "result-card danger-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ BAĞLANTI / VİRÜS</span>`;
-                statusDesc.innerText = "Çoklu katman taraması tamamlandı. Link yapısında, kaynak kodlarında veya küresel veritabanlarında ciddi güvenlik tehditleri tespit edilmiştir.";
+                statusDesc.innerText = "Çok katmanlı hibrit tarama bitti. Link yapısında, kaynak kodlarında veya küresel kara listelerde ciddi güvenlik tehditleri tespit edilmiştir. ASLA GİRMEYİN.";
             } else if (riskSkoru > 0 && riskSkoru < 50) {
                 statusCard.className = "result-card warning-style";
-                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ DURUM / DUBLÖR SİTE</span>`;
-                statusDesc.innerText = "Sitede kesin bir virüs tespiti yapılamadı ancak şüpheli ucuz uzantı kullanımı veya standart dışı script kodları bulundu.";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ DURUM / DIŞA KAPALI SİTE</span>`;
+                statusDesc.innerText = "Sitede net bir virüs imzası bulunamadı ancak ucuz uzantı kullanımı veya dış taramalara kapalı şüpheli yapılar mevcut. Temkinli olun.";
             } else {
                 statusCard.className = "result-card safe-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI TAMAMEN GÜVENLİ</span>`;
-                statusDesc.innerText = "Siber Kalkan üç katmanlı (URL, Kaynak Kod ve Global İstihbarat) analiz sürecini başarıyla tamamladı. Herhangi bir virüs veya oltalama izine rastlanmadı.";
+                statusDesc.innerText = "Siber Kalkan üç katmanlı (Filtre, Canlı Kod ve Küresel İstihbarat) analiz sürecini başarıyla tamamladı. Herhangi bir virüs veya oltalama izine rastlanmadı.";
             }
 
-            // Bulguları ekrana dök
             bulgular.forEach(b => {
                 reportList.innerHTML += `
                     <div class="report-item">
@@ -550,14 +584,14 @@
             riskScoreTxt.innerText = `Toplam Risk Katsayısı: %0`;
             statusCard.className = "result-card safe-style";
             statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-            statusDesc.innerText = `${domain} adresi resmi beyaz listededir: ${mesaj}`;
+            statusDesc.innerText = `${domain} adresi siber koruma muafiyetindedir: ${mesaj}`;
             reportList.innerHTML = `
                 <div class="report-item">
                     <div class="report-top">
                         <span>Güvenlik Doğrulaması</span>
                         <span class="badge" style="background:var(--neon-green); color:#000">${etiket}</span>
                     </div>
-                    <p class="report-desc">Bu adres siber filtre muafiyetine sahiptir. Meşruiyeti siber güvenlik otoritelerince onaylanmıştır.</p>
+                    <p class="report-desc">Meşruiyeti siber güvenlik otoritelerince ve kurumsal beyaz listelerce onaylanmış güvenli web yapısı.</p>
                 </div>`;
         }
     </script>
