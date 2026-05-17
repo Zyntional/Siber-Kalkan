@@ -44,7 +44,6 @@
             overflow-x: hidden;
         }
 
-        /* Sol üst taraftaki yumuşak parlamayı koruduk */
         body::before {
             content: '';
             position: absolute;
@@ -243,7 +242,6 @@
             font-weight: 700;
         }
 
-        /* --- SİBER İLETİŞİM ALANI CSS --- */
         .cyber-contact-section {
             background: rgba(5, 8, 22, 0.4);
             border: 1px solid var(--border-color);
@@ -374,7 +372,6 @@
             loader.style.display = "block";
             loadingText.innerText = "SİBER TEHDİT MOTORLARI ÇALIŞIYOR...";
 
-            // Gerçek asenkron veri akışını yönetmek için setTimeout ile tetikliyoruz
             setTimeout(async () => {
                 await gercekAnaliz(urlInput);
                 loader.style.display = "none";
@@ -392,41 +389,67 @@
 
             let riskSkoru = 0;
             let bulgular = [];
-            let urlObj;
+            
+            const orijinalHttpliMi = /^https?:\/\//i.test(inputUrl);
+            const orijinalHttpsliMi = /^https:\/\//i.test(inputUrl);
 
-            // URL format düzeltme
-            let duzgunUrl = inputUrl;
-            if (!/^https?:\/\//i.test(duzgunUrl)) {
-                duzgunUrl = 'http://' + duzgunUrl;
+            let geciciUrl = inputUrl;
+            if (!orijinalHttpliMi) {
+                geciciUrl = 'https://' + inputUrl;
             }
 
+            let domain = "";
             try {
-                urlObj = new URL(duzgunUrl);
+                const urlObj = new URL(geciciUrl);
+                domain = urlObj.hostname.toLowerCase();
             } catch (e) {
-                urlObj = { hostname: inputUrl.split('/')[0] };
+                domain = inputUrl.split('/')[0].toLowerCase();
             }
 
-            const domain = urlObj.hostname ? urlObj.hostname.toLowerCase() : inputUrl.toLowerCase();
             let temizDomain = domain.replace(/^www\./, '');
 
-            // --- 1. KATMAN: Resmi Kurumsal Beyaz Liste Doğrulaması ---
-            if (temizDomain.endsWith('.gov.tr') || temizDomain.endsWith('.edu.tr') || temizDomain === 'ptt.com.tr' || temizDomain === 'ptt.com') {
+            // --- 1. KATMAN: GENİŞLETİLMİŞ GÜVENLİ KALIP VE BEYAZ LİSTE KONTROLÜ ---
+            // Türkiye'deki popüler olan ve olmayan resmi kargo siteleri kalıpları
+            const kargoBeyazListe = ['yurtiçikargo', 'yurticikargo', 'araskargo', 'mngkargo', 'suratkargo', 'süratkargo', 'pttkargo', 'ups.com', 'dhl.com', 'fedex', 'jetizz', 'scotty', 'kolaygelsin', 'horoz'];
+            // Popüler küresel devler ve sosyal ağlar
+            const globalBeyazListe = ['youtube.com', 'google.com', 'instagram.com', 'github.com', 'twitter.com', 'x.com', 'linkedin.com', 'facebook.com', 'microsoft.com', 'apple.com', 'netflix.com', 'spotify.com'];
+            
+            // Resmi Uzantılar (.gov.tr, .edu.tr, .bel.tr, .pol.tr vb.)
+            const resmiUzantiliMi = temizDomain.endsWith('.gov.tr') || temizDomain.endsWith('.edu.tr') || temizDomain.endsWith('.bel.tr') || temizDomain.endsWith('.pol.tr');
+            
+            // Kullanıcı kargo kelimesi aratmış ama domain gerçekten yasal bir kargo firmasına mı ait kontrolü
+            let guvenliKargoMu = false;
+            kargoBeyazListe.forEach(k => {
+                if (temizDomain.includes(k) && (temizDomain.endsWith('.com.tr') || temizDomain.endsWith('.com'))) {
+                    guvenliKargoMu = true;
+                }
+            });
+
+            let globalDevMi = false;
+            globalBeyazListe.forEach(g => {
+                if (temizDomain === g || temizDomain.endsWith('.' + g)) {
+                    globalDevMi = true;
+                }
+            });
+
+            // Eğer girilen domain yasal/kurumsal güvenli kalıplardan biriyse risk taramasını temiz kapatıyoruz
+            if (resmiUzantiliMi || guvenliKargoMu || globalDevMi) {
                 statusCard.style.display = "block";
                 reportZone.style.display = "block";
                 reportList.innerHTML = "";
                 
                 statusCard.className = "result-card safe-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-                statusDesc.innerText = `"${domain}" adresi resmi kurumsal beyaz listededir. Bu bağlantı üzerinden işlemlerinizi güvenle gerçekleştirebilirsiniz.`;
+                statusDesc.innerText = `"${domain}" adresi doğrulanmış kurumsal/güvenli sistem veritabanımızdadır. İşlemlerinize güvenle devam edebilirsiniz.`;
                 riskScoreTxt.innerText = `Toplam Risk Katsayısı: %0`;
                 
                 reportList.innerHTML = `
                     <div class="report-item">
                         <div class="report-top">
-                            <span>Resmi Beyaz Liste Doğrulaması</span>
+                            <span>Sistem Güvenlik Filtresi</span>
                             <span class="badge" style="background:var(--neon-green); color:#000">GÜVENLİ</span>
                         </div>
-                        <p class="report-desc">Bağlantı, devlet kurumları veya akredite eğitim kurumları listesinde yer aldığı için tam güvenli kabul edilmiştir.</p>
+                        <p class="report-desc">Alan adı, siber kalkan beyaz listesinde veya yasal kurumsal kalıplarla (resmi kargo/global ağlar) tam eşleşme sağladı.</p>
                     </div>`;
                 return;
             }
@@ -443,10 +466,10 @@
                     const txt = await res.text();
                     if (txt.includes(temizDomain)) {
                         karaListedeVarMi = true;
-                        riskSkoru += 60;
+                        riskSkoru += 70;
                         bulgular.push({
                             baslik: "Küresel Oltalama Veritabanı Eşleşmesi",
-                            desc: "Bu alan adı aktif siber tehdit ve oltalama (phishing) listelerinde aktif zararlı olarak kayıtlıdır.",
+                            desc: "Bu alan adı uluslararası aktif siber tehdit istihbaratı veritabanında zararlı oltalama (phishing) adresi olarak listelenmiştir.",
                             seviye: "KRİTİK TEHLİKE",
                             renk: "var(--neon-red)"
                         });
@@ -457,18 +480,18 @@
             }
 
             // --- 3. KATMAN: SSL/HTTPS Protokol Kontrolü ---
-            if (!inputUrl.startsWith('https')) {
+            if (orijinalHttpliMi && !orijinalHttpsliMi) {
                 riskSkoru += 20;
                 bulgular.push({
                     baslik: "Erişim Protokolü Güvensiz (HTTP)",
-                    desc: "Bağlantı veri iletimini şifrelemiyor. Bankalar, e-devlet ve kurumsal firmalar asla ham HTTP protokolü kullanmaz.",
+                    desc: "Bağlantı veri iletimini şifrelemiyor. Güvenilir kurumlar veri giriş sayfalarında asla ham HTTP protokolü kullanmaz.",
                     seviye: "ORTA RİSK",
                     renk: "var(--neon-orange)"
                 });
             }
 
             // --- 4. KATMAN: Şüpheli Alan Adı Uzantıları ---
-            const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.cf', '.work', '.ru', '.site'];
+            const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.cf', '.work', '.ru', '.site', '.link'];
             let uzantiYakalandi = false;
             illegalUzanti.forEach(u => {
                 if (temizDomain.endsWith(u)) { uzantiYakalandi = true; }
@@ -477,23 +500,24 @@
                 riskSkoru += 40;
                 bulgular.push({
                     baslik: "Şüpheli Alan Adı Uzantısı",
-                    desc: "Maliyeti çok ucuz veya takibi zor olan uzantılar (.xyz, .top, .club) siber saldırganlar tarafından oltalama amaçlı açılır.",
+                    desc: "Siber saldırganlar maliyeti ucuz ve kimlik takibi zor olan uzantıları (.xyz, .top, .link vb.) oltalama amaçlı sıklıkla tercih eder.",
                     seviye: "YÜKSEK RİSK",
                     renk: "var(--neon-red)"
                 });
             }
 
             // --- 5. KATMAN: Oltalama (Phishing) Anahtar Kelimeleri ---
-            const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'edevlet', 'giriş', 'turktekno'];
+            // (Beyaz listeden geçemeyen ama isminde panik/ödül/kargo geçen siteler yakalanır)
+            const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'edevlet', 'giriş', 'fatura', 'borc', 'borç', 'tazminat', 'vize'];
             let yakalananKelimeler = [];
             tuzakKelimeler.forEach(kelime => {
                 if (inputUrl.toLowerCase().includes(kelime)) { yakalananKelimeler.push(kelime); }
             });
             if (yakalananKelimeler.length > 0) {
-                riskSkoru += 30;
+                riskSkoru += 35;
                 bulgular.push({
                     baslik: "Oltalama (Phishing) Anahtar Kelimeleri",
-                    desc: `Bağlantı içerisinde kullanıcıyı paniğe sevk eden veya ödül vadeden kritik kelimeler saptandı: (${yakalananKelimeler.join(', ')})`,
+                    desc: `Güvenli listelerde yer almayan bu bağlantının içinde hassas tetikleyici kelimeler saptandı: (${yakalananKelimeler.join(', ')})`,
                     seviye: "YÜKSEK RİSK",
                     renk: "var(--neon-red)"
                 });
@@ -502,10 +526,10 @@
             // --- 6. KATMAN: Doğrudan IP Adresi Kontrolü ---
             const ipFormati = /^(\d{1,3}\.){3}\d{1,3}$/;
             if (ipFormati.test(temizDomain)) {
-                riskSkoru += 50;
+                riskSkoru += 60;
                 bulgular.push({
                     baslik: "Doğrudan IP Adresi Kullanımı",
-                    desc: "Güvenilir kurumlar kullanıcılara IP adresi barındıran linkler göndermez. Bu yöntem genellikle arkadaki zararlı yazılım sunucusunu gizlemek için kullanılır.",
+                    desc: "Bağlantıda bir alan adı (domain) yerine doğrudan IP adresi barındırılıyor. Bu durum siber saldırılarda sunucu gizlemek için sıkça kullanılır.",
                     seviye: "KRİTİK TEHLİKE",
                     renk: "var(--neon-red)"
                 });
@@ -519,21 +543,20 @@
             const sonRiskYuzdesi = Math.min(riskSkoru, 100);
             riskScoreTxt.innerText = `Toplam Risk Katsayısı: %${sonRiskYuzdesi}`;
 
-            if (sonRiskYuzdesi >= 50 || karaListedeVarMi) {
+            if (karaListedeVarMi || sonRiskYuzdesi >= 55) {
                 statusCard.className = "result-card danger-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ BAĞLANTI TESPİT EDİLDİ</span>`;
-                statusDesc.innerText = "Bu bağlantı çok yüksek ihtimalle verilerinizi veya paranızı çalmayı hedefleyen bir oltalama (phishing) tuzağıdır ya da cihazınıza virüs bulaştırabilir. Kesinlikle TIKLAMAYIN.";
-            } else if (sonRiskYuzdesi > 0 && sonRiskYuzdesi < 50) {
+                statusDesc.innerText = "Bu bağlantı siber kalkan filtrelerini aşamadı. Verilerinizi ele geçirmeyi hedefleyen sahte bir arayüz veya oltalama tuzağı olabilir. Kesinlikle TIKLAMAYIN.";
+            } else if (sonRiskYuzdesi > 0 && sonRiskYuzdesi < 55) {
                 statusCard.className = "result-card warning-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ BAĞLANTI</span>`;
-                statusDesc.innerText = "Bağlantı tam anlamıyla bloke edilmedi ancak siber kalkan filtrelerimize takılan bazı şüpheli unsurlar barındırıyor. Temkinli yaklaşmanız önerilir.";
+                statusDesc.innerText = "Bağlantı doğrudan zararlı olarak engellenmedi ancak sistem filtrelerine takılan bazı riskli analiz bulguları mevcut. Dikkatli olmanız tavsiye edilir.";
             } else {
                 statusCard.className = "result-card safe-style";
                 statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ GÖRÜNÜYOR</span>`;
-                statusDesc.innerText = "Yapılan sezgisel veri taramasında herhangi bir siber tehdit unsuruna veya şüpheli sunucu yapısına rastlanmadı.";
+                statusDesc.innerText = "Yapılan statik ve heuristik veri analizinde herhangi bir siber tehdit unsuruna rastlanmadı.";
             }
 
-            // Detay bulgular paneli dolduruluyor
             if (bulgular.length === 0) {
                 reportList.innerHTML = `
                     <div class="report-item">
