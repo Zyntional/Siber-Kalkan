@@ -10,16 +10,15 @@
     
     <style>
         :root {
-            /* Görsellerdeki tam renk paleti */
+            /* İlk tasarımdaki orijinal renk kodları ve siber tonlar */
             --bg-dark: #030712;
             --card-bg: rgba(9, 15, 36, 0.7);
-            --inner-box-bg: rgba(4, 8, 23, 0.6);
             --border-glow: rgba(56, 189, 248, 0.15);
             --text-white: #ffffff;
             --text-gray: #718096;
-            --neon-blue: #38bdf8; /* Siber Kalkan yazısı ve butonun parlayan tam rengi */
+            --neon-blue: #38bdf8; /* Başlık ve butonun parlayan tam rengi */
             
-            /* Analiz renk katmanları */
+            /* Analiz durum renkleri */
             --neon-green: #4ade80;
             --neon-red: #f87171;
             --neon-orange: #fb923c;
@@ -34,7 +33,7 @@
 
         body {
             background-color: var(--bg-dark);
-            /* SOL ÜST TARAFIN RENGİNİ AÇMA: Sol üst köşeye hafif, yumuşak bir siber parlama ekledik */
+            /* Sol üst taraftaki o hafif, tatlı siber parlama efekti */
             background-image: radial-gradient(circle at 10% 10%, #0c1938 0%, #040815 50%, #02050d 100%);
             color: var(--text-white);
             min-height: 100vh;
@@ -45,14 +44,14 @@
             padding: 20px;
         }
 
-        /* Ana Panel Yapısı */
+        /* İlk Başta İstediğin Kompakt Panel Yapısı */
         .container {
             width: 100%;
             max-width: 660px;
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
             border-radius: 18px;
-            padding: 45px 40px;
+            padding: 50px 40px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(12px);
             margin-bottom: 25px;
@@ -60,10 +59,10 @@
 
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 35px;
         }
 
-        /* Orijinal Mavi Kalkan Logosu Yapısı ve Parlaması */
+        /* Parlayan Orijinal Vektörel Mavi Kalkan */
         .shield-icon {
             width: 34px;
             height: 40px;
@@ -92,33 +91,32 @@
             z-index: 2;
         }
 
-        /* SİBER KALKAN YAZISININ RENGİ: Tam istediğin siber mavi tonuna ayarlandı */
+        /* İstediğin Parlayan Siber Mavi Yazı Rengi */
         .header h1 {
             font-size: 2.1rem;
             font-weight: 800;
             color: var(--neon-blue);
             letter-spacing: 1.5px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-transform: uppercase;
             text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
+        /* İlk Baştaki Sade Alt Başlık */
         .header p {
             color: var(--text-gray);
-            font-size: 0.88rem;
-            line-height: 1.6;
-            max-width: 500px;
-            margin: 0 auto;
+            font-size: 0.92rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
 
-        /* Input ve Arama Kutusu Alanı */
+        /* Giriş ve Buton Kutusu */
         .search-box {
             display: flex;
             background: rgba(2, 4, 12, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 5px;
             border-radius: 12px;
-            margin-bottom: 25px;
             align-items: center;
             transition: all 0.3s ease;
         }
@@ -142,7 +140,7 @@
             color: #2c374e;
         }
 
-        /* Sağdaki Orijinal Tarama Başlat Butonu */
+        /* İlk Baştaki ANALİZ ET Butonu */
         .search-box button {
             background: var(--neon-blue);
             color: #000000;
@@ -154,7 +152,7 @@
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
             white-space: nowrap;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
         }
 
         .search-box button:hover {
@@ -165,60 +163,11 @@
             transform: scale(0.98);
         }
 
-        /* Alt Kısım: Tehdit İhbarı / Geri Bildirim Kutusu */
-        .feedback-box {
-            background: var(--inner-box-bg);
-            border: 1px solid rgba(255, 255, 255, 0.01);
-            border-radius: 12px;
-            padding: 22px 20px;
-            text-align: center;
-        }
-
-        .feedback-box h3 {
-            font-size: 0.92rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .feedback-box p {
-            color: var(--text-gray);
-            font-size: 0.78rem;
-            line-height: 1.5;
-            max-width: 480px;
-            margin: 0 auto 15px;
-        }
-
-        .feedback-btn {
-            background: transparent;
-            color: var(--neon-blue);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            padding: 9px 20px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .feedback-btn:hover {
-            background: rgba(56, 189, 248, 0.08);
-            border-color: var(--neon-blue);
-        }
-
-        /* Yükleme ve Sonuç Çıktı Katmanları */
+        /* Dinamik Yükleme ve Sonuç Ekranları */
         .loader {
             display: none;
             text-align: center;
-            margin-bottom: 25px;
+            margin-top: 25px;
         }
 
         .spinner {
@@ -235,7 +184,7 @@
             display: none;
             border-radius: 10px;
             padding: 18px;
-            margin-bottom: 25px;
+            margin-top: 25px;
             animation: slideUp 0.4s ease forwards;
         }
 
@@ -261,7 +210,7 @@
             border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 10px;
             padding: 15px;
-            margin-bottom: 25px;
+            margin-top: 25px;
             text-align: left;
             animation: slideUp 0.5s ease forwards;
         }
@@ -293,7 +242,7 @@
             font-weight: 700;
         }
 
-        /* Alt Künye Bilgilendirme Yazısı */
+        /* Orijinal Alt Künye Yazısı */
         .footer-text {
             width: 100%;
             max-width: 660px;
@@ -304,7 +253,7 @@
         }
 
         @media (max-width: 600px) {
-            .container { padding: 30px 20px; }
+            .container { padding: 40px 20px; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
             .search-box input { background: rgba(2, 4, 12, 0.8); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 8px; padding: 12px; width: 100%; margin-bottom: 8px; }
             .search-box button { width: 100%; padding: 12px; border-radius: 8px; }
@@ -320,12 +269,12 @@
         <div class="header">
             <div class="shield-icon"></div>
             <h1>SİBER KALKAN</h1>
-            <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin. Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
+            <p>Siber Tehdit Avcısı</p>
         </div>
 
         <div class="search-box">
-            <input type="text" id="url-field" placeholder="Analiz edilecek web adresini yapıştırın (Örn: ptt kargo takip sorgula)">
-            <button onclick="siberAnalizBaslat()">TARAMA BAŞLAT</button>
+            <input type="text" id="url-field" placeholder="Taranacak web adresini girin...">
+            <button onclick="siberAnalizBaslat()">ANALİZ ET</button>
         </div>
 
         <div class="loader" id="loading-zone">
@@ -341,12 +290,6 @@
         <div class="report-section" id="report-zone">
             <h4>Katman Analiz Bulguları</h4>
             <div id="report-list"></div>
-        </div>
-
-        <div class="feedback-box">
-            <h3>📬 Tehdit İhbarı / Geri Bildirim</h3>
-            <p>Sistemde karşılaştığınız yazılımsal hataları, yeni oltalama kelimesi önerilerinizi veya geliştirme fikirlerinizi doğrudan merkezimize iletebilirsiniz.</p>
-            <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Geri Bildirim" class="feedback-btn">📭 Analiz Raporu Gönder</a>
         </div>
     </div>
 
@@ -369,7 +312,7 @@
             let urlInput = inputElement.value.trim().toLowerCase();
 
             if (!urlInput) {
-                alert("Lütfen analiz edilecek bir link gir kanka!");
+                alert("Lütfen analiz edilecek bir web adresi gir kanka!");
                 return;
             }
 
@@ -384,7 +327,7 @@
             let riskSkoru = 0;
             let bulgular = [];
 
-            // 1. Katman: Güvenli Adres Filtresi
+            // 1. Katman: Güvenli Kurumsal Beyaz Liste Filtresi
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 setTimeout(() => {
                     loader.style.display = "none";
@@ -392,7 +335,7 @@
                     statusCard.style.display = "block";
                     reportZone.style.display = "block";
                     statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-                    statusDesc.innerText = `${domain} adresi resmi kurumsal beyaz listededir.`;
+                    statusDesc.innerText = `${domain} adresi resmi kurumsal beyaz listededir. Güvenle ilerleyebilirsiniz.`;
                     reportList.innerHTML = `
                         <div class="report-item">
                             <span>Resmi Beyaz Liste Doğrulaması</span>
@@ -402,7 +345,7 @@
                 return;
             }
 
-            // 2. Katman: Canlı Kara Liste Kontrolü
+            // 2. Katman: Küresel Canlı Kara Liste Kontrolü
             loadingText.innerText = "Küresel siber istihbarat havuzu sorgulanıyor...";
             const proxy = "https://corsproxy.io/?";
             const karaListeUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
@@ -419,10 +362,10 @@
                     }
                 }
             } catch (e) {
-                console.log("Canlı istihbarat motoruna bağlanılamadı, heuristik katman devrede.");
+                console.log("Canlı ağ hatası, yerel tarama motoru devraldı.");
             }
 
-            // 3. Katman: Heuristik Sezgisel Filtreler
+            // 3. Katman: Heuristik Sezgisel Filtreler (Zero-Day Analizi)
             loadingText.innerText = "Yapay sezgisel analiz katmanları çalıştırılıyor...";
             const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'edevlet', 'login', 'giris', 'turktekno', 'onay'];
             let yakalananlar = oltalamaKelimeleri.filter(k => urlInput.includes(k));
@@ -435,10 +378,10 @@
             const riskliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.ru', '.tk', '.site'];
             if (riskliUzantilar.some(u => domain.endsWith(u))) {
                 riskSkoru += 15;
-                bulgular.push({ t: "Şüpheli Alan Adı Uzantısı", b: "UYARI", c: "var(--neon-orange)" });
+                bulgular.push({ t: "Şüpheli Alan Adı Uzantısı Saptandı", b: "UYARI", c: "var(--neon-orange)" });
             }
 
-            // Çıktı Ekranı
+            // Sonuçları Ekrana Basma
             setTimeout(() => {
                 loader.style.display = "none";
                 statusCard.style.display = "block";
@@ -446,7 +389,7 @@
                 if (riskSkoru >= 50 || karaListedeVarMi) {
                     statusCard.className = "result-card danger-style";
                     statusTitle.innerHTML = `<span style="color: var(--neon-red)">🚨 TEHLİKELİ SİTE / OLTALAMA SAPTANDI</span>`;
-                    statusDesc.innerText = "Siber Kalkan analiz modülleri bu URL yapısında kimlik avı tuzağı tespit etti. Kesinlikle verilerinizi girmeyin.";
+                    statusDesc.innerText = "Siber Kalkan analiz modülleri bu URL yapısında kimlik avı tuzağı veya zararlı yazılım izleri yakaladı. Kesinlikle veri girişi yapmayın.";
                     reportZone.style.display = "block";
                 } else {
                     statusCard.className = "result-card safe-style";
