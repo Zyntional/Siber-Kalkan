@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SİBER KALKAN</title>
-    
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #050716 0%, #0a0f2d 100%);
-            --card-bg: rgba(11, 18, 48, 0.45);
-            --inner-box-bg: rgba(4, 6, 18, 0.35);
-            --text-main: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #020617 0%, #050b18 50%, #0a122c 100%);
+            --card-bg: rgba(10, 17, 41, 0.65);
+            --inner-box-bg: rgba(4, 8, 24, 0.5);
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
             --neon-blue: #38bdf8;
             --neon-green: #4ade80;
@@ -19,89 +18,299 @@
             --border-color: rgba(56, 189, 248, 0.15);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
-        body { background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
 
-        .container { width: 100%; max-width: 720px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px 40px 30px 40px; backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); margin-bottom: 20px; }
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Ana Kart Yapısı - Görseldeki Çerçeve ve Arka Plan Oranları */
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 50px 45px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+            margin-bottom: 25px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        /* Görseldeki Sade ve Şık Mavi Kalkan Logosu */
+        .shield-icon {
+            width: 32px;
+            height: 38px;
+            margin: 0 auto 20px;
+            background: #38bdf8;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+        }
         
-        .header { text-align: center; margin-bottom: 25px; }
-        
-        /* Yeni Eklenen Şık Parlayan Logo Alanı */
-        .logo-container {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 10px;
+        .shield-icon::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            background: #0a1128;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 1;
+        }
+
+        .shield-icon::before {
+            content: '';
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            background: #38bdf8;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            z-index: 2;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* Input ve Buton Arama Bölümü */
+        .search-box {
+            display: flex;
+            background: rgba(3, 7, 18, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 5px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            padding: 12px 14px;
+            font-size: 0.92rem;
+        }
+
+        .search-box input::placeholder {
+            color: #334155;
+        }
+
+        .search-box button {
+            background: #38bdf8;
+            color: #000000;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .search-box button:hover {
+            background: #7dd3fc;
+        }
+
+        /* Tehdit İhbarı / Geri Bildirim Bölümü (Görseldeki alt kutu) */
+        .feedback-box {
+            background: var(--inner-box-bg);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .feedback-box h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
         }
-        .logo-container img {
+
+        .feedback-box p {
+            color: #64748b;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            max-width: 500px;
+            margin: 0 auto 18px;
+        }
+
+        .feedback-btn {
+            background: transparent;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .feedback-btn:hover {
+            background: rgba(56, 189, 248, 0.08);
+            border-color: #38bdf8;
+        }
+
+        /* Dinamik Çıktı ve Rapor Alanları */
+        .loader {
+            display: none;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(56, 189, 248, 0.1);
+            border-top-color: var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        .result-card {
+            display: none;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            animation: slideUp 0.4s ease forwards;
+            text-align: left;
+        }
+
+        .safe-style {
+            background: rgba(74, 222, 128, 0.04);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .danger-style {
+            background: rgba(248, 113, 113, 0.04);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .result-header {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .report-section {
+            display: none;
+            background: rgba(3, 7, 18, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 25px;
+            text-align: left;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        .report-section h4 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .report-item {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* Görseldeki En Alt İnce Gri Metin */
+        .footer-text {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.4));
+            max-width: 680px;
+            font-size: 0.72rem;
+            color: #2e3b4e;
+            text-align: center;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
         }
-
-        .header h1 { font-size: 2.2rem; font-weight: 800; color: #ffffff; letter-spacing: 1px; margin-bottom: 15px; }
-        .header p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; max-width: 520px; margin: 0 auto; }
-
-        /* Arama Kutusu Yerleşimi */
-        .search-box { display: flex; background: rgba(4, 6, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px; border-radius: 12px; transition: all 0.3s ease; margin-bottom: 25px; gap: 8px; align-items: center; }
-        .search-box:focus-within { border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 0 15px rgba(56, 189, 248, 0.15); }
-        .search-box input { flex: 1; background: transparent; border: none; outline: none; color: #fff; padding: 12px 15px; font-size: 0.95rem; }
-        .search-box input::placeholder { color: #334155; }
-        .search-box button { background: #38bdf8; color: #000000; border: none; padding: 12px 24px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; letter-spacing: 0.5px; }
-        .search-box button:hover { background: #7dd3fc; }
-
-        /* Dinamik Sonuç Kartları */
-        .loader { display: none; text-align: center; margin-bottom: 25px; }
-        .spinner { width: 35px; height: 35px; border: 3px solid rgba(56, 189, 248, 0.1); border-top-color: var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
-        
-        .result-card { display: none; border-radius: 12px; padding: 20px; margin-bottom: 25px; animation: slideUp 0.4s ease forwards; text-align: left; }
-        .safe-style { background: rgba(74, 222, 128, 0.05); border: 1px solid rgba(74, 222, 128, 0.2); }
-        .danger-style { background: rgba(248, 113, 113, 0.05); border: 1px solid rgba(248, 113, 113, 0.2); }
-        .result-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-        
-        .report-section { display: none; background: rgba(4, 6, 18, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; margin-bottom: 25px; text-align: left; animation: slideUp 0.5s ease forwards; }
-        .report-section h4 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .report-item { padding: 10px 14px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-        .badge { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
-
-        /* En Alta Alınan Geri Bildirim Kutusu */
-        .feedback-box { background: var(--inner-box-bg); border-top: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0 0 12px 12px; padding: 20px; text-align: center; margin-top: 20px; }
-        .feedback-box h3 { font-size: 0.95rem; font-weight: 700; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .feedback-box p { color: var(--text-muted); font-size: 0.8rem; line-height: 1.5; max-width: 550px; margin: 0 auto 15px; }
-        .feedback-btn { background: transparent; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 8px 18px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.2s; }
-        .feedback-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
-
-        /* En Alt Küçük Yazı */
-        .footer-text { width: 100%; max-width: 720px; font-size: 0.75rem; color: #222d3d; text-align: center; line-height: 1.5; }
 
         @media (max-width: 600px) {
-            .container { padding: 30px 15px 20px 15px; }
+            .container { padding: 35px 20px; }
             .search-box { flex-direction: column; background: transparent; border: none; padding: 0; }
-            .search-box input { background: rgba(4, 6, 18, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px; width: 100%; margin-bottom: 8px; }
-            .search-box button { width: 100%; padding: 14px; border-radius: 10px; }
+            .search-box input { background: rgba(3, 7, 18, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px; width: 100%; margin-bottom: 8px; }
+            .search-box button { width: 100%; padding: 14px; border-radius: 8px; }
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes slideUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <div class="logo-container">
-                <img src="http://googleusercontent.com/image_generation_content/0" alt="Siber Kalkan Logo">
-            </div>
+            <div class="shield-icon"></div>
             <h1>SİBER KALKAN</h1>
             <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin. Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
         </div>
 
         <div class="search-box">
             <input type="text" id="url-field" placeholder="Analiz edilecek web adresini yapıştırın (Örn: ptt kargo takip sorgula)">
-            <button onclick="calistirSiberMotor()">TARAMA BAŞLAT</button>
+            <button onclick="siberAnalizBaslat()">TARAMA BAŞLAT</button>
         </div>
 
         <div class="loader" id="loading-zone">
@@ -122,7 +331,7 @@
         <div class="feedback-box">
             <h3>📬 Tehdit İhbarı / Geri Bildirim</h3>
             <p>Sistemde karşılaştığınız yazılımsal hataları, yeni oltalama kelimesi önerilerinizi veya geliştirme fikirlerinizi doğrudan merkezimize iletebilirsiniz.</p>
-            <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Geri Bildirim" class="feedback-btn">📧 Analiz Raporu Gönder</a>
+            <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan Geri Bildirim" class="feedback-btn">📭 Analiz Raporu Gönder</a>
         </div>
     </div>
 
@@ -131,7 +340,7 @@
     </div>
 
     <script>
-        async function calistirSiberMotor() {
+        async function siberAnalizBaslat() {
             const inputElement = document.getElementById('url-field');
             const loader = document.getElementById('loading-zone');
             const loadingText = document.getElementById('loading-text');
@@ -145,7 +354,7 @@
             let urlInput = inputElement.value.trim().toLowerCase();
 
             if (!urlInput) {
-                alert("Lütfen taranacak bir adres girin kanka!");
+                alert("Lütfen analiz edilecek bir link veya metin girin kanka!");
                 return;
             }
 
@@ -160,65 +369,74 @@
             let riskSkoru = 0;
             let bulgular = [];
 
-            // 1. Katman: Resmi Beyaz Liste Doğrulaması
+            // 1. Katman: Beyaz Liste Kontrolü
             if (domain.endsWith('.gov.tr') || domain.endsWith('.edu.tr') || domain === 'ptt.com.tr' || domain === 'ptt.com') {
                 setTimeout(() => {
                     loader.style.display = "none";
-                    ekranaTemizBas(statusCard, reportZone, reportList, statusTitle, statusDesc, domain);
-                }, 500);
+                    statusCard.className = "result-card safe-style";
+                    statusCard.style.display = "block";
+                    reportZone.style.display = "block";
+                    statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
+                    statusDesc.innerText = `${domain} adresi resmi beyaz listededir. Doğrulanmış kurumsal altyapı.`;
+                    reportList.innerHTML = `
+                        <div class="report-item">
+                            <span>Kurumsal Beyaz Liste Doğrulaması</span>
+                            <span class="badge" style="background: var(--neon-green); color: #000;">GÜVENLİ</span>
+                        </div>`;
+                }, 600);
                 return;
             }
 
-            // 2. Katman: Canlı Küresel Veritabanı Tarama
-            loadingText.innerText = "Küresel siber istihbarat havuzu taranıyor...";
+            // 2. Katman: Siber İstihbarat Veritabanı Tarama
+            loadingText.innerText = "Küresel siber istihbarat havuzu sorgulanıyor...";
             const proxy = "https://corsproxy.io/?";
-            const uzakVeritabani = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
+            const karaListeUrl = "https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-ACTIVE.txt";
             
-            let listedeVarMi = false;
+            let karaListedeVarMi = false;
             try {
-                const response = await fetch(`${proxy}${encodeURIComponent(uzakVeritabani)}`);
-                if (response.ok) {
-                    const txt = await response.text();
-                    if (txt.includes(domain)) {
-                        listedeVarMi = true;
+                const res = await fetch(`${proxy}${encodeURIComponent(karaListeUrl)}`);
+                if (res.ok) {
+                    const dataText = await res.text();
+                    if (dataText.includes(domain)) {
+                        karaListedeVarMi = true;
                         riskSkoru += 60;
-                        bulgular.push({ t: "Küresel Kara Liste Eşleşmesi", b: "ZARARLI", c: "var(--neon-red)" });
+                        bulgular.push({ t: "Küresel Oltalama Veritabanı Kara Liste Eşleşmesi", b: "ZARARLI", c: "var(--neon-red)" });
                     }
                 }
             } catch (e) {
-                console.log("Canlı ağa bağlanılamadı, yerel motor devraldı.");
+                console.log("Canlı veri havuzuna bağlanılamadı, heuristik analiz devrede.");
             }
 
-            // 3. Katman: Yerel Sezgisel Filtreler (Zero-Day Kalkanı)
+            // 3. Katman: Yapay Sezgisel Filtreler (Heuristics)
             loadingText.innerText = "Yapay sezgisel analiz katmanları çalıştırılıyor...";
             const oltalamaKelimeleri = ['ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'banka', 'e-devlet', 'edevlet', 'login', 'giris', 'turktekno', 'onay'];
-            let yakalananlar = oltalamaKelimeleri.filter(k => urlInput.includes(k));
+            let yakalananKelimeler = oltalamaKelimeleri.filter(kelime => urlInput.includes(kelime));
 
-            if (yakalananlar.length > 0) {
+            if (yakalananKelimeler.length > 0) {
                 riskSkoru += 50;
-                bulgular.push({ t: `Oltalama Kelime Analizi (${yakalananlar.join(', ')})`, b: "ŞÜPHELİ", c: "var(--neon-orange)" });
+                bulgular.push({ t: `Şüpheli Anahtar Kelime Eşleşmesi (${yakalananKelimeler.join(', ')})`, b: "ŞÜPHELİ", c: "var(--neon-orange)" });
             }
 
-            const jenerikUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.ru', '.tk'];
-            if (jenerikUzantilar.some(u => domain.endsWith(u))) {
+            const riskliUzantilar = ['.xyz', '.top', '.club', '.info', '.live', '.ru', '.tk', '.site'];
+            if (riskliUzantilar.some(u => domain.endsWith(u))) {
                 riskSkoru += 15;
-                bulgular.push({ t: "Şüpheli Alan Adı Uzantısı Yapısı", b: "UYARI", c: "var(--neon-orange)" });
+                bulgular.push({ t: "Yüksek Siber Risk Taşıyan Alan Adı Uzantısı", b: "UYARI", c: "var(--neon-orange)" });
             }
 
-            // Sonuçları Ekrana Yazdırma
+            // Ekrana Çıktı Verme
             setTimeout(() => {
                 loader.style.display = "none";
                 statusCard.style.display = "block";
 
-                if (riskSkoru >= 50 || listedeVarMi) {
+                if (riskSkoru >= 50 || karaListedeVarMi) {
                     statusCard.className = "result-card danger-style";
                     statusTitle.innerHTML = `<span style="color: var(--neon-red)">🚨 TEHLİKELİ SİTE / OLTALAMA SAPTANDI</span>`;
-                    statusDesc.innerText = "Siber Kalkan yerel ve küresel testlerde bu adreste sahte marka taklidi veya oltalama (phishing) yapısı tespit etti. Bilgilerinizi kesinlikle girmeyin.";
+                    statusDesc.innerText = "Siber Kalkan analiz modülleri bu URL yapısında kimlik avı tuzağı veya zararlı yazılım izleri yakaladı. Kesinlikle veri girişi yapmayın.";
                     reportZone.style.display = "block";
                 } else {
                     statusCard.className = "result-card safe-style";
                     statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ BAĞLANTI TEMİZ GÖZÜKÜYOR</span>`;
-                    statusDesc.innerText = "Yapılan sezgisel taramalarda ve aktif kara liste sorgularında herhangi bir siber sızma veya tehdit unsuruna rastlanmamıştır.";
+                    statusDesc.innerText = "Yapılan sezgisel taramalarda ve aktif kara liste sorgularında herhangi bir siber tehdit unsuruna rastlanmamıştır.";
                 }
 
                 bulgular.forEach(b => {
@@ -228,20 +446,7 @@
                             <span class="badge" style="background: ${b.c}; color: #000;">${b.b}</span>
                         </div>`;
                 });
-            }, 600);
-        }
-
-        function ekranaTemizBas(statusCard, reportZone, reportList, statusTitle, statusDesc, domain) {
-            statusCard.className = "result-card safe-style";
-            statusCard.style.display = "block";
-            reportZone.style.display = "block";
-            statusTitle.innerHTML = `<span style="color: var(--neon-green)">✅ DOĞRULANMIŞ GÜVENLİ ADRES</span>`;
-            statusDesc.innerText = `${domain} adresi beyaz listededir. Doğrulanmış kurumsal/resmi ağ altyapısı.`;
-            reportList.innerHTML = `
-                <div class="report-item">
-                    <span>Kurumsal Beyaz Liste Doğrulaması</span>
-                    <span class="badge" style="background: var(--neon-green); color: #000;">GÜVENLİ</span>
-                </div>`;
+            }, 700);
         }
     </script>
 </body>
