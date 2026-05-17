@@ -65,6 +65,7 @@
             backdrop-filter: blur(20px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 20px; /* Alttaki kutuyla arasında boşluk bırakır */
         }
 
         .header {
@@ -197,7 +198,6 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 24px;
-            margin-bottom: 25px;
             animation: slideUp 0.5s ease forwards;
         }
 
@@ -242,30 +242,39 @@
             font-weight: 700;
         }
 
-        /* --- SİBER İLETİŞİM ALANI CSS --- */
-        .cyber-contact-section {
-            background: rgba(5, 8, 22, 0.4);
-            border: 1px solid var(--border-color);
+        /* --- EN ALT KISIM İÇİN SİBER İLETİŞİM ALANI CSS --- */
+        .cyber-bottom-contact {
+            width: 100%;
+            max-width: 750px;
+            background: rgba(9, 15, 38, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.15);
             border-radius: 16px;
-            padding: 24px;
-            text-align: center;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.6s ease forwards;
         }
 
-        .cyber-contact-section h3 {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        .contact-info-text {
+            text-align: left;
+            max-width: 70%;
         }
 
-        .cyber-contact-p {
+        .cyber-bottom-contact h3 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cyber-bottom-contact p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 18px;
+            font-size: 0.85rem;
             line-height: 1.4;
         }
 
@@ -273,21 +282,21 @@
             background: transparent;
             color: var(--neon-blue);
             border: 1px solid var(--neon-blue);
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-size: 0.95rem;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
+            white-space: nowrap;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.1);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.05);
         }
 
         .cyber-mail-btn:hover {
             background: var(--neon-blue);
             color: #060814;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
             transform: translateY(-1px);
         }
 
@@ -305,7 +314,7 @@
         }
 
         .footer {
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 0.8rem;
             color: #4b5563;
             text-align: center;
@@ -340,19 +349,21 @@
             <h3><span>🔬 Teknik Analiz Bulguları</span> <span style="font-size:0.85rem; color:var(--text-muted);" id="risk-score-txt"></span></h3>
             <div id="report-list"></div>
         </div>
+    </div>
 
-        <div class="cyber-contact-section">
+    <div class="cyber-bottom-contact">
+        <div class="contact-info-text">
             <h3>📬 Tehdit İhbarı / Geri Bildirim</h3>
-            <p class="cyber-contact-p">Sistemde karşılaştığınız yazılımsal hataları, yeni oltalama kelimesi önerilerinizi veya geliştirme fikirlerinizi doğrudan merkezimize iletebilirsiniz.</p>
-            
-            <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan - Tehdit Ihbari ve Hata Bildirimi" class="cyber-mail-btn">
-                📧 Analiz Raporu Gönder
-            </a>
+            <p>Sistemde karşılaştığınız yazılımsal hataları, yeni oltalama kelimesi önerilerinizi veya geliştirme fikirlerinizi doğrudan merkezimize iletebilirsiniz.</p>
         </div>
+        
+        <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan - Tehdit Ihbari ve Hata Bildirimi" class="cyber-mail-btn">
+            📧 Raporu Gönder
+        </a>
     </div>
 
     <div class="footer">
-        Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Geliştiren: <b>Zyntional.dev</b>
+        Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Hazırlayan: <b>R.Can ARMAN - 8/B</b>
     </div>
 
     <script>
