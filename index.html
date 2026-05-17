@@ -12,7 +12,7 @@
     <link rel="manifest" href="manifest.json">
 
     <style>
-        /* --- MODEREN VE TAM MOBİL UYUMLU CSS --- */
+        /* --- SİBER DİJİTAL RENK PALETİ --- */
         :root {
             --bg-gradient: linear-gradient(135deg, #060814 0%, #0b112c 100%);
             --card-bg: rgba(13, 20, 48, 0.7);
@@ -84,7 +84,7 @@
             line-height: 1.5;
         }
 
-        /* --- ESNEK ARAMA KUTUSU (MOBİL UYUMLU) --- */
+        /* --- SAKATLANMAYAN ARAMA KUTUSU TASARIMI --- */
         .search-box {
             display: flex;
             background: rgba(5, 8, 22, 0.6);
@@ -130,15 +130,16 @@
             background: #7dd3fc;
         }
 
+        /* --- SİBER YÜKLENİYOR EKRANI --- */
         .loader {
             display: none;
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .spinner {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border: 4px solid rgba(56, 189, 248, 0.1);
             border-top-color: var(--neon-blue);
             border-radius: 50%;
@@ -146,11 +147,13 @@
             margin: 0 auto 15px;
         }
 
+        /* --- SONUÇ PANELLERİ --- */
         .result-card {
             display: none;
             border-radius: 16px;
-            padding: 20px;
+            padding: 22px;
             margin-bottom: 25px;
+            animation: slideUp 0.4s ease forwards;
         }
 
         .safe-style { background: rgba(74, 222, 128, 0.06); border: 1px solid rgba(74, 222, 128, 0.3); }
@@ -161,7 +164,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
@@ -172,19 +175,20 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 20px;
+            animation: slideUp 0.5s ease forwards;
         }
 
         .report-section h3 {
-            font-size: 1rem;
+            font-size: 1.05rem;
             margin-bottom: 15px;
             color: #fff;
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .report-item {
-            padding: 12px 0;
+            padding: 14px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -195,24 +199,24 @@
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             margin-bottom: 6px;
         }
 
         .report-desc {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             line-height: 1.4;
         }
 
         .badge {
             font-size: 0.7rem;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
             font-weight: 700;
         }
 
-        /* --- ALT KISIM SİBER İLETİŞİM ALANI (ESNEK FLEX) --- */
+        /* --- GERİ BİLDİRİM PANELİ --- */
         .cyber-bottom-contact {
             width: 100%;
             max-width: 750px;
@@ -221,7 +225,7 @@
             border-radius: 16px;
             padding: 20px;
             display: flex;
-            flex-direction: row; /* Yan yana yerleşim (PC için) */
+            flex-direction: row;
             justify-content: space-between;
             align-items: center;
             gap: 15px;
@@ -229,9 +233,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .contact-info-text {
-            flex: 1;
-        }
+        .contact-info-text { flex: 1; }
 
         .cyber-bottom-contact h3 {
             font-size: 0.95rem;
@@ -277,24 +279,12 @@
             line-height: 1.4;
         }
 
-        /* ========================================================
-           📱 TELEFONLAR İÇİN ÖZEL RESPONSIVE AYARLAR (MEDIA QUERY)
-           ======================================================== */
+        /* --- MOBİL CİHAZ UYUMLULUK KURALLARI --- */
         @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 20px 15px;
-                border-radius: 18px;
-            }
-
-            .header h1 {
-                font-size: 1.6rem;
-            }
-
-            /* Telefondaki taşmayı önlemek için arama kutusunu alt alta alıyoruz */
+            body { padding: 10px; }
+            .container { padding: 20px 15px; border-radius: 18px; }
+            .header h1 { font-size: 1.6rem; }
+            
             .search-box {
                 flex-direction: column;
                 background: transparent;
@@ -308,6 +298,7 @@
                 border: 1px solid rgba(255, 255, 255, 0.1);
                 border-radius: 12px;
                 padding: 14px;
+                margin-bottom: 8px;
             }
 
             .search-box button {
@@ -316,7 +307,6 @@
                 border-radius: 12px;
             }
 
-            /* Alt bildirim kısmını da dikey yapıyoruz */
             .cyber-bottom-contact {
                 flex-direction: column;
                 align-items: stretch;
@@ -324,13 +314,8 @@
                 padding: 15px;
             }
 
-            .cyber-mail-btn {
-                width: 100%;
-            }
-
-            .report-section h3 {
-                align-items: flex-start;
-            }
+            .cyber-mail-btn { width: 100%; }
+            .report-section h3 { flex-direction: column; align-items: flex-start; gap: 4px; }
         }
 
         @keyframes pulse {
@@ -339,6 +324,7 @@
             100% { transform: scale(1); opacity: 0.9; }
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -388,24 +374,30 @@
 
     <script>
         function analizSureci() {
-            const urlInput = document.getElementById('url-input').value.trim();
+            // Elementleri çekiyoruz
+            const inputElement = document.getElementById('url-input');
             const loader = document.getElementById('loading-zone');
             const statusCard = document.getElementById('status-card');
             const reportZone = document.getElementById('report-zone');
+
+            if (!inputElement) return;
+            const urlInput = inputElement.value.trim();
 
             if (!urlInput) {
                 alert("Lütfen analiz için geçerli bir bağlantı adresi girin!");
                 return;
             }
 
+            // Önceki sonuçları sıfırla ve loader'ı aç
             statusCard.style.display = "none";
             reportZone.style.display = "none";
             loader.style.display = "block";
 
+            // Sezgisel motor gecikme simülasyonu
             setTimeout(() => {
                 loader.style.display = "none";
                 gercekAnaliz(urlInput);
-            }, 1500);
+            }, 1200);
         }
 
         function gercekAnaliz(inputUrl) {
@@ -418,8 +410,120 @@
 
             let riskSkoru = 0;
             let bulgular = [];
-            let urlObj;
 
             let duzgunUrl = inputUrl;
             if (!/^https?:\/\//i.test(duzgunUrl)) {
-                duzgunUrl = 'http://' +
+                duzgunUrl = 'http://' + duzgunUrl;
+            }
+
+            let domain = inputUrl.toLowerCase();
+            try {
+                const urlObj = new URL(duzgunUrl);
+                if (urlObj.hostname) {
+                    domain = urlObj.hostname.toLowerCase();
+                }
+            } catch (e) {
+                domain = inputUrl.split('/')[0].toLowerCase();
+            }
+
+            // 1. Kriter: HTTPS Kontrolü
+            if (!inputUrl.toLowerCase().startsWith('https://')) {
+                riskSkoru += 20;
+                bulgular.push({
+                    baslik: "Erişim Protokolü Güvensiz (HTTP)",
+                    desc: "Bağlantı şifreli veri iletimi (SSL) sunmuyor. Güvenilir ve kurumsal siteler kesinlikle HTTPS kullanır.",
+                    seviye: "ORTA RİSK",
+                    renk: "var(--neon-orange)"
+                });
+            }
+
+            // 2. Kriter: Şüpheli Uzantı Kontrolü
+            const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.cf', '.work', '.ru', '.fit', '.tk'];
+            let uzantiYakalandi = false;
+            illegalUzanti.forEach(u => {
+                if (domain.endsWith(u)) { uzantiYakalandi = true; }
+            });
+            if (uzantiYakalandi) {
+                riskSkoru += 40;
+                bulgular.push({
+                    baslik: "Şüpheli Üst Seviye Alan Adı (TLD)",
+                    desc: "Maliyeti çok ucuz ve takibi zor olan uzantılar siber saldırganlar tarafından paravan oltalama siteleri için seçilir.",
+                    seviye: "YÜKSEK RİSK",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            // 3. Kriter: Oltalama Kelime Analizi
+            const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'giriş', 'verification', 'update'];
+            let yakalananKelimeler = [];
+            tuzakKelimeler.forEach(kelime => {
+                if (inputUrl.toLowerCase().includes(kelime)) { yakalananKelimeler.push(kelime); }
+            });
+            if (yakalananKelimeler.length > 0) {
+                riskSkoru += 30;
+                bulgular.push({
+                    baslik: "Oltalama Kelime Eşleşmesi",
+                    desc: `Bağlantı adresi içinde kullanıcıyı paniğe sevk eden veya sahte sisteme çeken kelimeler algılandı: (${yakalananKelimeler.join(', ')})`,
+                    seviye: "YÜKSEK RİSK",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            // 4. Kriter: IP Adresi Sorgusu
+            const ipFormati = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (ipFormati.test(domain)) {
+                riskSkoru += 50;
+                bulgular.push({
+                    baslik: "Ham IP Adresi Algılandı",
+                    desc: "Resmi kurumlar maskelenmiş alan adı kullanır. IP adresi üzerinden giden linkler doğrudan zararlı sunucu bağlantısı barındırır.",
+                    seviye: "KRİTİK TEHLİKE",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            // DOM Güncellemeleri ve Görünürlük
+            statusCard.style.display = "block";
+            reportZone.style.display = "block";
+            reportList.innerHTML = ""; 
+
+            riskScoreTxt.innerText = `Risk Katsayısı: %${Math.min(riskSkoru, 100)}`;
+
+            if (riskSkoru >= 50) {
+                statusCard.className = "result-card danger-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ BAĞLANTI SAKINCALI</span>`;
+                statusDesc.innerText = "Bu bağlantıda kritik güvenlik açıkları ve oltalama parametreleri tespit edilmiştir. Cihaz güvenliğiniz ve veri mahremiyetiniz için linki ziyaret etmeyiniz.";
+            } else if (riskSkoru > 0 && riskSkoru < 50) {
+                statusCard.className = "result-card warning-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ BAĞLANTI / DİKKAT</span>`;
+                statusDesc.innerText = "Bağlantıda tam bir engelleme yok ancak sistem mimarisine aykırı bazı şüpheli protokoller algılandı. Dikkatli olmanız önerilir.";
+            } else {
+                statusCard.className = "result-card safe-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ</span>`;
+                statusDesc.innerText = "Bağlantı adresi üzerinde gerçekleştirilen statik ve sezgisel siber filtre testlerinin tamamı başarıyla sonuçlanmıştır.";
+            }
+
+            if (bulgular.length === 0) {
+                reportList.innerHTML = `
+                    <div class="report-item">
+                        <div class="report-top">
+                            <span>Sezgisel Tarayıcı Durumu</span>
+                            <span class="badge" style="background:var(--neon-green); color:#000">GÜVENLİ</span>
+                        </div>
+                        <p class="report-desc">Link yapısında hiçbir anomaliliğe veya siber tuzak parametresine rastlanmadı.</p>
+                    </div>`;
+            } else {
+                bulgular.forEach(b => {
+                    reportList.innerHTML += `
+                        <div class="report-item">
+                            <div class="report-top">
+                                <span>${b.baslik}</span>
+                                <span class="badge" style="background:${b.renk}; color:#000">${b.seviye}</span>
+                            </div>
+                            <p class="report-desc">${b.desc}</p>
+                        </div>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
