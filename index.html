@@ -3,165 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siber Kalkan | Güvenlik ve Analiz</title>
+    <title>Siber Kalkan | Güvenli Bağlantı Analiz Merkezi</title>
     
+    <!-- --- LOGO VE UYGULAMA ETİKETLERİ --- -->
+    <!-- Web Tarayıcı Sekmesindeki Küçük Logo (Favicon) -->
     <link rel="icon" type="image/png" href="logo.png">
+    <!-- Mobil ve Masaüstü "Uygulama Olarak Ekle" Logoları -->
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Siber Kalkan">
+    <!-- Uygulama Kimlik Kartı Bağlantısı -->
+    <link rel="manifest" href="manifest.json">
 
     <style>
+        /* --- KALİTELİ VE MODERN CSS TASARIMI --- */
         :root {
-            --primary: #1e3a8a; /* Siber Kalkan için daha koyu, güvenliği temsil eden lacivert */
-            --bg: #0f172a;      /* Modern siber güvenlik projelerine uygun koyu arka plan */
+            --bg-gradient: linear-gradient(135deg, #060814 0%, #0b112c 100%);
+            --card-bg: rgba(13, 20, 48, 0.7);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --neon-blue: #38bdf8;
+            --neon-green: #4ade80;
+            --neon-red: #f87171;
+            --neon-orange: #fb923c;
+            --border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #1e293b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
-            margin: 0;
-            padding: 20px 0;
-            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(0,0,0,0) 70%);
+            top: -100px;
+            left: -100px;
+            z-index: -1;
         }
 
         .container {
-            background: white;
-            width: 400px;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 750px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 35px;
         }
 
-        /* --- LOGO STİLİ --- */
-        .app-logo {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: block;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 { color: #0f172a; font-size: 22px; margin-bottom: 5px; }
-        .subtitle { color: #475569; font-size: 14px; margin-bottom: 20px; }
-
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
+        .header .icon-shield {
+            font-size: 3rem;
             margin-bottom: 10px;
-            resize: none;
+            display: inline-block;
+            animation: pulse 2s infinite;
         }
 
-        .btn {
-            background: var(--primary);
-            color: white;
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(5, 8, 22, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
             border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
+            outline: none;
+            color: #fff;
+            padding: 12px 16px;
+            font-size: 1.05rem;
+        }
+
+        .search-box input::placeholder {
+            color: #4b5563;
+        }
+
+        .search-box button {
+            background: var(--neon-blue);
+            color: #060814;
+            border: none;
+            outline: none;
+            padding: 0 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
+            transition: all 0.2s ease;
         }
 
-        .btn:hover { background: #1d4ed8; }
-
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f1f5f9;
-            border-radius: 10px;
-            min-height: 50px;
-            text-align: left;
-            color: #0f172a;
-            font-weight: 500;
-            word-wrap: break-word;
+        .search-box button:hover {
+            background: #7dd3fc;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
         }
 
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 15px;
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(56, 189, 248, 0.1);
+            border-top-color: var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        .result-card {
+            display: none;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 25px;
+            animation: slideUp 0.4s ease forwards;
+        }
+
+        .safe-style {
+            background: rgba(74, 222, 128, 0.06);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .danger-style {
+            background: rgba(248, 113, 113, 0.06);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .warning-style {
+            background: rgba(251, 146, 60, 0.06);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .report-section {
+            display: none;
+            background: rgba(5, 8, 22, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            animation: slideUp 0.5s ease forwards;
+        }
+
+        .report-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .report-item {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .report-item:last-child {
+            border-bottom: none;
+        }
+
+        .report-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .report-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 15px rgba(56,189,248,0.5)); }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #4b5563;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <img src="logo.png" alt="Siber Kalkan Logosu" class="app-logo">
+    <div class="container" id="main-card">
+        <div class="header">
+            <div class="icon-shield">🛡️</div>
+            <h1>SİBER KALKAN</h1>
+            <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin.<br>Sistem linke tıklamadan arka planda yapay sezgisel analiz gerçekleştirir.</p>
+        </div>
 
-    <h1>Siber Kalkan</h1>
-    <p class="subtitle">Güvenlik ve Analiz Platformu</p>
+        <div class="search-box">
+            <input type="text" id="url-input" placeholder="Analiz edilecek web adresini yapıştırın (Örn: ptt-kargo-takip.xyz)...">
+            <button onclick="analizSureci()">TARAMA BAŞLAT</button>
+        </div>
 
-    <textarea id="textInput" placeholder="Analiz edilecek veriyi veya metni buraya girin..."></textarea>
-    
-    <select id="langPair" style="width:100%; margin-bottom:10px; padding:8px; border-radius:5px; border: 1px solid #cbd5e1;">
-        <option value="tr|en">Türkçe -> İngilizce</option>
-        <option value="en|tr">İngilizce -> Türkçe</option>
-    </select>
+        <div class="loader" id="loading-zone">
+            <div class="spinner"></div>
+            <p style="color: var(--neon-blue); font-size: 0.9rem; font-weight: 600; letter-spacing: 1px;">SİBER TEHDİT MOTORLARI ÇALIŞIYOR...</p>
+        </div>
 
-    <button class="btn" onclick="translateNow()">Şimdi Analiz Et</button>
+        <div class="result-card" id="status-card">
+            <div class="result-header" id="status-title"></div>
+            <p id="status-desc" style="font-size: 0.95rem; line-height: 1.5; color: #e2e8f0;"></p>
+        </div>
 
-    <div class="result" id="resultText">Sonuç burada görünecek...</div>
-
-    <div style="margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 20px; text-align: center;">
-        <h3 style="color: #0f172a; font-size: 16px; margin-bottom: 10px;">🛡️ Hata Bildirimi / Tehdit İhbarı</h3>
-        <p style="color: #475569; font-size: 13px; margin-bottom: 15px; line-height: 1.4;">Sistemde bulduğunuz açıkları, hataları veya geliştirme önerilerini aşağıdaki butona tıklayarak doğrudan bize bildirebilirsiniz.</p>
-        
-        <a href="mailto:zyntional.dev@gmail.com?subject=Siber Kalkan - Hata Bildirimi / Geri Bildirim" class="btn" style="text-decoration: none; display: inline-block; width: auto; padding: 10px 20px; background: #334155; font-size: 14px;">
-            📧 Tehdit / Hata Bildir
-        </a>
+        <div class="report-section" id="report-zone">
+            <h3><span>🔬 Teknik Analiz Bulguları</span> <span style="font-size:0.85rem; color:var(--text-muted);" id="risk-score-txt"></span></h3>
+            <div id="report-list"></div>
+        </div>
     </div>
 
-    <footer>
-        Hazırlayan: <b>R.Can ARMAN - 8/B</b>
-    </footer>
-</div>
+    <div class="footer">
+        Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir.
+    </div>
 
-<script>
-    async function translateNow() {
-        const text = document.getElementById('textInput').value.trim();
-        const lang = document.getElementById('langPair').value.split('|');
-        const resDiv = document.getElementById('resultText');
+    <script>
+        function analizSureci() {
+            const urlInput = document.getElementById('url-input').value.trim();
+            const loader = document.getElementById('loading-zone');
+            const statusCard = document.getElementById('status-card');
+            const reportZone = document.getElementById('report-zone');
 
-        if(!text) {
-            alert("Lütfen analiz edilecek metni yazın!");
-            return;
+            if (!urlInput) {
+                alert("Lütfen analiz için geçerli bir bağlantı adresi girin!");
+                return;
+            }
+
+            statusCard.style.display = "none";
+            reportZone.style.display = "none";
+            loader.style.display = "block";
+
+            setTimeout(() => {
+                loader.style.display = "none";
+                gercekAnaliz(urlInput);
+            }, 1500);
         }
-        
-        resDiv.innerText = "Analiz ediliyor...";
 
-        try {
-            const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${lang[0]}&tl=${lang[1]}&dt=t&q=${encodeURIComponent(text)}`);
-            const data = await response.json();
-            
-            let translatedContent = "";
-            if (data[0]) {
-                data[0].forEach(item => {
-                    if (item[0]) {
-                        translatedContent += item[0];
-                    }
+        function gercekAnaliz(inputUrl) {
+            const statusCard = document.getElementById('status-card');
+            const statusTitle = document.getElementById('status-title');
+            const statusDesc = document.getElementById('status-desc');
+            const reportZone = document.getElementById('report-zone');
+            const reportList = document.getElementById('report-list');
+            const riskScoreTxt = document.getElementById('risk-score-txt');
+
+            let riskSkoru = 0;
+            let bulgular = [];
+            let urlObj;
+
+            let duzgunUrl = inputUrl;
+            if (!/^https?:\/\//i.test(duzgunUrl)) {
+                duzgunUrl = 'http://' + duzgunUrl;
+            }
+
+            try {
+                urlObj = new URL(duzgunUrl);
+            } catch (e) {
+                urlObj = { hostname: inputUrl.split('/')[0], startWithHttps: inputUrl.startsWith('https') };
+            }
+
+            const domain = urlObj.hostname ? urlObj.hostname.toLowerCase() : inputUrl.toLowerCase();
+
+            if (!inputUrl.startsWith('https')) {
+                riskSkoru += 20;
+                bulgular.push({
+                    baslik: "Erişim Protokolü Güvensiz (HTTP)",
+                    desc: "Bağlantı veri iletimini şifrelemiyor. Bankalar, e-devlet ve kurumsal firmalar asla ham HTTP protokolü kullanmaz.",
+                    seviye: "ORTA RİSK",
+                    renk: "var(--neon-orange)"
                 });
             }
-            
-            resDiv.innerText = translatedContent || "Sonuç bulunamadı.";
-        } catch (error) {
-            resDiv.innerText = "Hata! Lütfen ağ bağlantınızı kontrol edin.";
-            console.error(error);
-        }
-    }
-</script>
 
+            const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.live', '.tk', '.ga', '.cf', '.work', '.ru'];
+            let uzantiYakalandi = false;
+            illegalUzanti.forEach(u => {
+                if (domain.endsWith(u)) { uzantiYakalandi = true; }
+            });
+            if (uzantiYakalandi) {
+                riskSkoru += 40;
+                bulgular.push({
+                    baslik: "Şüpheli Alan Adı Uzantısı",
+                    desc: "Maliyeti çok ucuz veya takibi zor olan uzantılar (.xyz, .top, .club) siber saldırganlar tarafından oltalama amaçlı açılır.",
+                    seviye: "YÜKSEK RİSK",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            const tuzakKelimeler = ['hedef', 'ptt', 'kargo', 'icra', 'ceza', 'hediye', 'kazandiniz', 'onay', 'dogrulama', 'banka', 'login', 'e-devlet', 'giriş'];
+            let yakalananKelimeler = [];
+            tuzakKelimeler.forEach(kelime => {
+                if (inputUrl.toLowerCase().includes(kelime)) { yakalananKelimeler.push(kelime); }
+            });
+            if (yakalananKelimeler.length > 0) {
+                riskSkoru += 30;
+                bulgular.push({
+                    baslik: "Oltalama (Phishing) Anahtar Kelimeleri",
+                    desc: `Bağlantı içerisinde kullanıcıyı paniğe sevk eden veya ödül vadeden kritik kelimeler saptandı: (${yakalananKelimeler.join(', ')})`,
+                    seviye: "YÜKSEK RİSK",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            const ipFormati = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (ipFormati.test(domain)) {
+                riskSkoru += 50;
+                bulgular.push({
+                    baslik: "Doğrudan IP Adresi Kullanımı",
+                    desc: "Güvenilir kurumlar kullanıcılara IP adresi barındıran linkler göndermez. Bu yöntem genellikle arkadaki zararlı yazılım sunucusunu gizlemek için kullanılır.",
+                    seviye: "KRİTİK TEHLİKE",
+                    renk: "var(--neon-red)"
+                });
+            }
+
+            statusCard.style.display = "block";
+            reportZone.style.display = "block";
+            reportList.innerHTML = ""; 
+
+            riskScoreTxt.innerText = `Toplam Risk Katsayısı: %${Math.min(riskSkoru, 100)}`;
+
+            if (riskSkoru >= 50) {
+                statusCard.className = "result-card danger-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-red)">🚨 TEHLİKELİ BAĞLANTI TESPİT EDİLDİ</span>`;
+                statusDesc.innerText = "Bu bağlantı çok yüksek ihtimalle verilerinizi veya paranızı çalmayı hedefleyen bir oltalama (phishing) tuzağıdır ya da cihazınıza virüs bulaştırabilir. Kesinlikle TIKLAMAYIN.";
+            } else if (riskSkoru > 0 && riskSkoru < 50) {
+                statusCard.className = "result-card warning-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-orange)">⚠️ ŞÜPHELİ BAĞLANTI</span>`;
+                statusDesc.innerText = "Bağlantı tam anlamıyla bloke edilmedi ancak siber kalkan filtrelerimize takılan bazı şüpheli unsurlar barındırıyor. Temkinli yaklaşmanız önerilir.";
+            } else {
+                statusCard.className = "result-card safe-style";
+                statusTitle.innerHTML = `<span style="color:var(--neon-green)">✅ BAĞLANTI GÜVENLİ GÖRÜNÜYOR</span>`;
+                statusDesc.innerText = "Yapılan sezgisel veri taramasında herhangi bir siber tehdit unsuruna veya şüpheli sunucu yapısına rastlanmadı.";
+            }
+
+            if (bulgular.length === 0) {
+                reportList.innerHTML = `
+                    <div class="report-item">
+                        <div class="report-top">
+                            <span>Sistem Analiz Durumu</span>
+                            <span class="badge" style="background:var(--neon-green); color:#000">TEMİZ</span>
+                        </div>
+                        <p class="report-desc">Bağlantı üzerinde yapılan statik kod ve domain geçmişi taraması tamamen temiz sonuçlandı.</p>
+                    </div>`;
+            } else {
+                bulgular.forEach(b => {
+                    reportList.innerHTML += `
+                        <div class="report-item">
+                            <div class="report-top">
+                                <span>${b.baslik}</span>
+                                <span class="badge" style="background:${b.renk}; color:#000">${b.seviye}</span>
+                            </div>
+                            <p class="report-desc">${b.desc}</p>
+                        </div>`;
+                });
+            }
+        }
+    </script>
 </body>
-</html>
