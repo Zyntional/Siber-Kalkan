@@ -408,37 +408,42 @@
 <div class="footer-text">
     Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Geliştiren: <b>Zyntional.dev</b>
 </div>
+<script>
     // 1. SERVICE WORKER KAYDI (ZORUNLU)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker başarıyla bağlandı knk!'))
-            .catch(err => console.log('SW hatası:', err));
-    });
-}
-
-// 2. BUTON TETİKLEME KODLARI
-let deferredPrompt;
-const installBtn = document.getElementById('pwaInstallBtn');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installBtn) {
-        installBtn.style.display = 'block'; // Kurallara uyulduğu an buton görünür olur
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker başarıyla bağlandı knk!'))
+                .catch(err => console.log('SW hatası:', err));
+        });
     }
-});
 
-if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            installBtn.style.display = 'none';
+    // 2. BUTON TETİKLEME KODLARI
+    let deferredPrompt;
+    const installBtn = document.getElementById('pwaInstallBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) {
+            installBtn.style.display = 'block'; // Kurallara uyulduğu an buton görünür olur
         }
     });
-}
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
 <script>
     function yeniBekle(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
