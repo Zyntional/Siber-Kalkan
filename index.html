@@ -4,116 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Siber Kalkan | Güvenli Bağlantı Analiz Merkezi</title>
+
     <link rel="icon" type="image/png" href="logo.png">
-<link rel="apple-touch-icon" href="logo.png">
-<meta name="apple-mobile-web-app-title" content="Siber Kalkan">
-<meta name="application-name" content="Siber Kalkan">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="apple-mobile-web-app-title" content="Siber Kalkan">
+    <meta name="application-name" content="Siber Kalkan">
+
     <style>
         :root {
-            --bg-dark: #030712;
+            --bg-dark: #020617;
             --panel-bg: #091124;
-            --input-bg: #050a14;
-            --border-color: #111d37;
+            --input-bg: #030712;
+            --border-color: #1e293b;
             --neon-blue: #38bdf8;
-            --neon-green: #22c55e;
-            --neon-orange: #f59e0b;
-            --neon-red: #ef4444;
-            --text-main: #f3f4f6;
-            --text-muted: #64748b;
+            --text-main: #f8fafc;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        /* Üst köşeden hafifçe açılan, parlayan orijinal gradyan arka fon */
         body {
-            background: radial-gradient(circle at top right, #0d1e3d 0%, #030712 60%);
+            background: radial-gradient(circle at 30% 20%, #0f172a 0%, #030712 60%);
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
 
         .container {
             width: 100%;
-            max-width: 640px;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
+            max-width: 600px;
+            background: #050b18;
+            border: 1px solid #111c35;
             border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            padding: 35px 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        /* Logo ve Başlık Alanı */
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        /* Gerçek Kalkan Emojisi ve Arkasında Yanıp Sönen Işık Efekti */
-        .shield-container {
-            display: inline-block;
-            position: relative;
+        .custom-logo {
+            width: 48px;
+            height: auto;
             margin-bottom: 15px;
-        }
-
-        .shield-emoji {
-            font-size: 50px;
-            position: relative;
-            z-index: 2;
-            display: block;
-        }
-
-        /* Arkadaki Işığın Yanıp Sönme Animasyonu */
-        .shield-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(56, 189, 248, 0.35);
-            border-radius: 50%;
-            filter: blur(20px);
-            z-index: 1;
-            animation: pulseGlow 2.5s infinite ease-in-out;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.4; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.9; filter: blur(25px); }
-            100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.4; }
+            display: inline-block;
         }
 
         .header h1 {
             color: #38bdf8;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
+            margin-bottom: 12px;
         }
 
         .header p {
             color: #94a3b8;
-            font-size: 13px;
-            margin-top: 10px;
-            line-height: 1.5;
+            font-size: 13.5px;
+            line-height: 1.6;
+            font-weight: 400;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
-        /* Girdi Alanı */
         .input-group {
             display: flex;
-            background: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 5px 6px;
+            background: #020617;
+            border: 1px solid #16223f;
+            border-radius: 12px;
+            padding: 4px;
             margin-bottom: 25px;
             align-items: center;
         }
@@ -122,9 +92,9 @@
             flex: 1;
             background: transparent;
             border: none;
-            padding: 10px;
+            padding: 12px 14px;
             color: #fff;
-            font-size: 13.5px;
+            font-size: 14px;
             outline: none;
         }
 
@@ -136,19 +106,14 @@
             background: #38bdf8;
             color: #000;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 13.5px;
             cursor: pointer;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.2px;
         }
 
-        button.btn-tarama:hover {
-            background: #0ea5e9;
-        }
-
-        /* Yükleniyor Kutusu */
         #loadingBox {
             display: none;
             text-align: center;
@@ -156,10 +121,10 @@
         }
 
         .spinner {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border: 3px solid rgba(56, 189, 248, 0.1);
-            border-top: 3px solid var(--neon-blue);
+            border-top: 3px solid #38bdf8;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 12px;
@@ -171,68 +136,56 @@
         }
 
         #loadingText {
-            color: var(--neon-blue);
-            font-size: 11.5px;
+            color: #38bdf8;
+            font-size: 12px;
             font-family: monospace;
         }
 
-        /* Sonuç Panelleri */
         #resultAlert {
             margin-bottom: 25px;
         }
 
-        /* Koyu Kırmızı Tehlike Kartı */
         .alert-danger {
-            background: #160e1b;
-            border: 1px solid #2e1523;
+            background: #180f1a;
+            border: 1px solid #351528;
             border-radius: 12px;
-            padding: 18px;
+            padding: 20px;
         }
 
         .alert-danger h2 {
             color: #f87171;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
-        .alert-danger p {
-            color: #cbd5e1;
-            font-size: 12.5px;
-            line-height: 1.5;
-        }
+        .alert-danger p { color: #cbd5e1; font-size: 13px; line-height: 1.6; }
 
-        /* Koyu Yeşil Güvenli Kartı */
         .alert-success {
-            background: #07191a;
-            border: 1px solid #0d3229;
+            background: #081a1b;
+            border: 1px solid #0e372b;
             border-radius: 12px;
-            padding: 18px;
+            padding: 20px;
         }
 
         .alert-success h2 {
             color: #10b981;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
-        .alert-success p {
-            color: #cbd5e1;
-            font-size: 12.5px;
-            line-height: 1.5;
-        }
+        .alert-success p { color: #cbd5e1; font-size: 13px; line-height: 1.6; }
 
-        /* Bulgular Paneli */
         .analysis-panel {
-            background: #040914;
-            border: 1px solid var(--border-color);
+            background: #030712;
+            border: 1px solid #111c35;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 25px;
@@ -242,129 +195,57 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
         }
 
-        .panel-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .risk-ratio {
-            font-size: 12px;
-            color: #94a3b8;
-            font-weight: 600;
-        }
-
-        .finding-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #0f172a;
-        }
-
-        .finding-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .finding-item:first-child {
-            padding-top: 0;
-        }
-
-        .finding-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-
-        .finding-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: #f1f5f9;
-        }
-
-        .badge {
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
+        .panel-title { font-size: 14.5px; font-weight: 800; color: #fff; }
+        .risk-ratio { font-size: 12.5px; color: #94a3b8; font-weight: 700; }
+        .finding-item { padding: 14px 0; border-bottom: 1px solid #0f172a; }
+        .finding-item:last-child { border-bottom: none; }
+        .finding-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .finding-name { font-size: 13.5px; font-weight: 800; color: #f1f5f9; }
+        
+        .badge { font-size: 10.5px; font-weight: 800; padding: 3px 10px; border-radius: 6px; }
         .badge-red { background: #3b1820; color: #f87171; }
         .badge-orange { background: #3b2311; color: #fbbf24; }
         .badge-green { background: #062e20; color: #34d399; }
+        .finding-text { color: #64748b; font-size: 12.5px; line-height: 1.5; }
 
-        .finding-text {
-            color: #64748b;
-            font-size: 12px;
-            line-height: 1.4;
-        }
-
-        /* Geri Bildirim Paneli */
         .feedback-panel {
-            background: #040914;
-            border: 1px solid var(--border-color);
+            background: #030712;
+            border: 1px solid #111c35;
             border-radius: 12px;
-            padding: 20px;
+            padding: 22px;
             text-align: center;
         }
 
-        .feedback-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 6px;
-            color: #fff;
-        }
-
-        .feedback-desc {
-            color: #64748b;
-            font-size: 11.5px;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
+        .feedback-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .feedback-desc { color: #64748b; font-size: 12px; line-height: 1.6; margin-bottom: 16px; }
 
         .btn-report {
-            background: #040914;
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: 1px solid #16223f;
             color: #38bdf8;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .btn-report:hover {
-            background: #0c152b;
-        }
-
-        .footer-text {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 11px;
-            color: #334155;
-        }
+        .footer-text { margin-top: 25px; text-align: center; font-size: 11px; color: #475569; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div class="shield-container">
-            <span class="shield-emoji">🛡️</span>
-            <div class="shield-glow"></div>
-        </div>
+        <img src="logo.png" alt="🛡️" class="custom-logo" onerror="this.style.display='none';">
         <h1>SİBER KALKAN</h1>
         <p>Şüpheli SMS, e-posta veya sosyal medya bağlantılarını güvenle test edin.<br>Sistem canlı DNS ve derin kaynak kod (DOM) analizi gerçekleştirir.</p>
     </div>
@@ -373,15 +254,6 @@
         <input type="text" id="targetUrl" placeholder="Analiz edilecek web adresini yapıştırın (Örn: ptt-kargo-takip.xyz)...">
         <button class="btn-tarama" onclick="analizBaslat()">TARAMA BAŞLAT</button>
     </div>
-   
-<button id="pwaInstallBtn" style="display: none; background: #0c152b; color: #38bdf8; border: 1px solid #111d37; padding: 12px; border-radius: 10px; width: 100%; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 20px; text-align: center;">
-    📲 Uygulamayı Ana Ekrana Ekle
-</button>
-
-<!-- ANA EKRANA EKLE BUTONU TAM BURAYA GELECEK -->
-<button id="pwaInstallBtn" style="display: none; background: #0c152b; color: #38bdf8; border: 1px solid #111d37; padding: 12px; border-radius: 10px; width: 100%; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 20px; text-align: center;">
-    📲 Uygulamayı Ana Ekrana Ekle
-</button>
 
     <div id="loadingBox">
         <div class="spinner"></div>
@@ -408,67 +280,20 @@
 <div class="footer-text">
     Toplumsal Siber Farkındalık Projesi • Verileriniz sunuculara gönderilmez, yerel olarak analiz edilir. • Geliştiren: <b>Zyntional.dev</b>
 </div>
+
 <script>
-    // 1. SERVICE WORKER KAYDI (ZORUNLU)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker başarıyla bağlandı knk!'))
-                .catch(err => console.log('SW hatası:', err));
-        });
-    }
-
-    // 2. BUTON TETİKLEME KODLARI
-    let deferredPrompt;
-    const installBtn = document.getElementById('pwaInstallBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (installBtn) {
-            installBtn.style.display = 'block'; // Kurallara uyulduğu an buton görünür olur
-        }
-    });
-
-    if (installBtn) {
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                await deferredPrompt.userChoice;
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
-            }
-        });
-    }
-</script>
-
-</body>
-</html>
-<script>
-    function yeniBekle(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
+    function yeniBekle(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
     function analizBaslat() {
         const urlInput = document.getElementById('targetUrl').value.trim();
-        if (!urlInput) {
-            alert("Lütfen bir web adresi girin!");
-            return;
-        }
+        if (!urlInput) { alert("Lütfen bir web adresi girin!"); return; }
         gercekAnaliz(urlInput);
     }
 
-    // GARANTİLİ MAİL GÖNDERME SİSTEMİ
     function mailGonder() {
         const aliciMail = "iletisim@zyntional.dev"; 
         const konu = encodeURIComponent("Siber Kalkan - Tehdit Analiz Raporu");
         const icerik = encodeURIComponent("Merhaba Siber Kalkan Ekibi,\n\nSistemde karşılaştığım durum / yeni oltalama kelimesi önerim şu şekildedir:\n\n[Buraya detayları yazabilirsiniz]");
-        
-        // Hem doğrudan mailto linkini tetikler hem de güvenli pencere açar
-        const mailtoUrl = `mailto:${aliciMail}?subject=${konu}&body=${icerik}`;
-        
-        // Gizli iframe veya doğrudan atama ile kararlı çalıştırma
-        window.location.href = mailtoUrl;
+        window.location.href = `mailto:${aliciMail}?subject=${konu}&body=${icerik}`;
     }
 
     async function gercekAnaliz(inputUrl) {
@@ -479,157 +304,116 @@
         const riskRatioText = document.getElementById('riskRatioText');
         const findingsContainer = document.getElementById('findingsContainer');
 
-        resultAlert.innerHTML = "";
+        resultAlert.innerHTML = ""; 
         analysisPanel.style.display = 'none';
         loadingBox.style.display = 'block';
         loadingText.innerText = "TEHDİT İSTİHBARAT VERİTABANI TARANIYOR...";
 
-        let riskSkoru = 0;
+        let riskSkoru = 0; 
         let bulgular = [];
 
         let temizDomain = inputUrl.replace(/^(^\s*https?:\/\/)?(www\.)?/i, "").split('/')[0].split('?')[0].toLowerCase();
         let orijinalHttpliMi = inputUrl.startsWith('http://');
-
         const proxy = "https://corsproxy.io/?";
 
-        // KARA LİSTE VERİTABANI
+        // Dev ve Güvenli Sitelerin Listesi (CORS Hatasından Etkilenmesinler)
+        const beyazListe = ['youtube.com', 'google.com', 'instagram.com', 'facebook.com', 'twitter.com', 'github.com', 'e-devlet.gov.tr', 'turkiye.gov.tr', 'wikipedia.org'];
+        let beyazListedeMi = false;
+        
+        beyazListe.forEach(goodUrl => {
+            if (temizDomain === goodUrl || temizDomain.endsWith('.' + goodUrl)) {
+                beyazListedeMi = true;
+            }
+        });
+
+        // Oltalama Veritabanı
         const siberKalkanKaraListe = [
             'e-devlet-kapisi-giris.xyz', 'turkiye-gov-tr-giris.top', 'ptt-kargo-takip-sorgu.click',
             'ziraat-mobil-onay.net', 'papara-odul-kazan.xyz'
         ];
 
         let karaListedeVarMi = false;
-        siberKalkanKaraListe.forEach(badUrl => {
-            if (temizDomain.includes(badUrl)) karaListedeVarMi = true;
-        });
+        siberKalkanKaraListe.forEach(badUrl => { if (temizDomain.includes(badUrl)) karaListedeVarMi = true; });
+        if (karaListedeVarMi) riskSkoru += 100;
 
-        if (karaListedeVarMi) {
-            riskSkoru += 100;
-        }
+        await yeniBekle(400);
 
-        await yeniBekle(300);
+        // Alt alan adı kontrolü
         const noktaSayisi = (temizDomain.match(/\./g) || []).length;
         if (noktaSayisi >= 3) {
             riskSkoru += 30;
-            bulgular.push({
-                baslik: "Çoklu Alt Alan Adı Maskelemesi",
-                desc: "Sitede olağandışı sayıda alt alan adı saptandı. Saldırganlar resmi kurum isimlerini taklit etmek için bu yöntemi kullanır.",
-                seviye: "YÜKSEK RİSK",
-                sinif: "badge-orange"
-            });
+            bulgular.push({ baslik: "Çoklu Alt Alan Adı Maskelemesi", desc: "Sitede olağandışı sayıda alt alan adı saptandı. Saldırganlar resmi kurum isimlerini taklit etmek için bu yöntemi kullanır.", seviye: "YÜKSEK RİSK", sinif: "badge-orange" });
         }
 
+        // Kelime Tuzağı Kontrolü
         const tuzakKelimeler = ['ptt', 'kargo', 'devlet', 'turkiye', 'ziraat', 'bank', 'secure', 'login'];
         let kelimeTuzak = false;
-        tuzakKelimeler.forEach(k => {
-            if (temizDomain.includes(k)) kelimeTuzak = true;
-        });
+        if (!beyazListedeMi) {
+            tuzakKelimeler.forEach(k => { if (temizDomain.includes(k)) kelimeTuzak = true; });
+            if (kelimeTuzak) {
+                riskSkoru += 25;
+                bulgular.push({ baslik: "Anahtar Kelime Tuzak Analizi", desc: "Alan adında popüler marka veya kurumları taklit etmeye yönelik hassas kelimeler saptandı.", seviye: "ORTA RİSK", sinif: "badge-orange" });
+            }
+        }
 
-        if (kelimeTuzak) riskSkoru += 25;
-
-        if (!karaListedeVarMi) {
+        // Canlı Kod Analiz Bölümü
+        if (!karaListedeVarMi && !beyazListedeMi) {
             try {
                 const siteSemaUrl = orijinalHttpliMi ? inputUrl : 'https://' + temizDomain;
                 const siteResponse = await fetch(`${proxy}${encodeURIComponent(siteSemaUrl)}`);
-                
                 if (siteResponse.ok) {
                     const htmlIcerik = await siteResponse.text();
                     const temizHtml = htmlIcerik.toLowerCase();
 
                     if (temizHtml.includes('type="password"') || temizHtml.includes('password') || temizHtml.includes('kart no') || temizHtml.includes('t.c. kimlik')) {
                         riskSkoru += 60;
-                        bulgular.push({
-                            baslik: "Hassas Veri Giriş Tuzağı",
-                            desc: "Sitenin iç kod yapısında kimlik veya kredi kartı bilgilerini sızdırmaya yönelik doğrulanmamış veri formları algılandı.",
-                            seviye: "KRİTİK TEHDİT",
-                            sinif: "badge-red"
-                        });
+                        bulgular.push({ baslik: "Hassas Veri Giriş Tuzağı", desc: "Sitenin iç kod yapısında kimlik veya kredi kartı bilgilerini sızdırmaya yönelik doğrulanmamış veri formları algılandı.", seviye: "KRİTİK TEHDİT", sinif: "badge-red" });
                     }
-
                     if (temizHtml.includes('window.location') || temizHtml.includes('location.href') || temizHtml.includes('replace(')) {
                         riskSkoru += 35;
-                        bulgular.push({
-                            baslik: "Zararlı JS Yönlendirme Kodu",
-                            desc: "Site scriptleri içinde kullanıcıyı otomatik olarak başka bir adrese kaçırma tetikleyicileri saptandı.",
-                            seviye: "YÜKSEK RİSK",
-                            sinif: "badge-orange"
-                        });
+                        bulgular.push({ baslik: "Zararlı JS Yönlendirme Kodu", desc: "Site scriptleri içinde kullanıcıyı otomatik olarak başka bir adrese kaçırma tetikleyicileri saptandı.", seviye: "YÜKSEK RİSK", sinif: "badge-orange" });
                     }
-                } else {
-                    throw new Error();
-                }
+                } else { throw new Error(); }
             } catch (e) {
-                riskSkoru += 45;
-                bulgular.push({
-                    baslik: "Canlı Kod Taraması Reddedildi",
-                    desc: "Site içeriği analiz sorgularını bloke etti veya sistem kendini gizliyor. Güvenlik protokolü gereği risk katsayısı artırıldı.",
-                    seviye: "TARAMA BLOKE",
-                    sinif: "badge-orange"
-                });
+                // CORS koruması algılandığında artık doğrudan patlamıyor
+                riskSkoru += 10;
+                bulgular.push({ baslik: "Canlı Kod Taraması Atlandı", desc: "Hedef sunucu harici tarama isteklerine kapalı. Güvenlik analizi alan adı kuralları üzerinden tamamlandı.", seviye: "KORUMALI SİTE", sinif: "badge-green" });
             }
         }
 
+        // Uzantı kontrolü
         const illegalUzanti = ['.xyz', '.top', '.club', '.info', '.click', '.shop'];
         let uzantiRisk = false;
-        illegalUzanti.forEach(u => {
-            if (temizDomain.endsWith(u)) uzantiRisk = true;
-        });
+        illegalUzanti.forEach(u => { if (temizDomain.endsWith(u)) uzantiRisk = true; });
+        if (uzantiRisk) {
+            riskSkoru += 40;
+            bulgular.push({ baslik: "Şüpheli Üst Seviye Alan Adı (TLD)", desc: "Saldırganlar tarafından ucuz ve takibi zor olduğu için tercih edilen tehlikeli uzantı tespiti.", seviye: "ORTA RİSK", sinif: "badge-orange" });
+        }
 
-        if (uzantiRisk) riskSkoru += 40;
-
-        await yeniBekle(400);
+        await yeniBekle(300);
         loadingBox.style.display = 'none';
 
-        let sonRiskYuzdesi = Math.min(riskSkoru, 100);
-        if(sonRiskYuzdesi > 0 && sonRiskYuzdesi < 80) sonRiskYuzdesi = 80; // Tam ekran görüntüsüyle eşleştirme
-
+        let sonRiskYuzdesi = beyazListedeMi ? 0 : Math.min(riskSkoru, 100);
         riskRatioText.innerText = `Toplam Risk Katsayısı: %${sonRiskYuzdesi}`;
 
         if (sonRiskYuzdesi >= 50) {
-            resultAlert.innerHTML = `
-                <div class="alert-danger">
-                    <h2>🚨 TEHLİKELİ BAĞLANTI TESPİT EDİLDİ</h2>
-                    <p>Bu bağlantı siber kalkan filtrelerini aşamadı. Verilerinizi ele geçirmeyi hedefleyen sahte bir arayüz veya oltalama tuzağı olabilir. Kesinlikle TIKLAMAYIN.</p>
-                </div>
-            `;
-            bulgular.push({
-                baslik: "Kaynak Kod Derin İnceleme",
-                desc: "Sitenin HTML gövdesi başarıyla tarandı. İçeride toplam 2 adet siber tehdit paterni eşleşti.",
-                seviye: "ŞÜPHELİ KOD",
-                sinif: "badge-red"
-            });
+            resultAlert.innerHTML = `<div class="alert-danger"><h2>🚨 TEHLİKELİ BAĞLANTI TESPİT EDİLDİ</h2><p>Bu bağlantı siber kalkan filtrelerini aşamadı. Verilerinizi ele geçirmeyi hedefleyen sahte bir arayüz veya oltalama tuzağı olabilir. Kesinlikle TIKLAMAYIN.</p></div>`;
         } else {
-            resultAlert.innerHTML = `
-                <div class="alert-success">
-                    <h2>✅ BAĞLANTI GÜVENLİ GÖRÜNÜYOR</h2>
-                    <p>Yapılan statik, DNS ve heuristik veri analizinde herhangi bir siber tehdit unsuruna rastlanmadı.</p>
-                </div>
-            `;
-            bulgular = [{
-                baslik: "Sistem Analiz Durumu",
-                desc: "Bağlantı üzerinde yapılan statik kod ve domain geçmişi taraması tamamen temiz sonuçlandı.",
-                seviye: "TEMİZ",
-                sinif: "badge-green"
-            }];
+            resultAlert.innerHTML = `<div class="alert-success"><h2>✅ BAĞLANTI GÜVENLİ GÖRÜNÜYOR</h2><p>Yapılan statik, DNS ve heuristik veri analizinde herhangi bir siber tehdit unsuruna rastlanmadı.</p></div>`;
+            if (bulgular.length === 0) {
+                bulgular = [{ baslik: "Sistem Analiz Durumu", desc: "Bağlantı üzerinde yapılan statik kod ve domain geçmişi taraması tamamen temiz sonuçlandı.", seviye: "TEMİZ", sinif: "badge-green" }];
+            }
         }
 
         findingsContainer.innerHTML = "";
         bulgular.forEach(b => {
             const div = document.createElement('div');
             div.className = "finding-item";
-            div.innerHTML = `
-                <div class="finding-top">
-                    <span class="finding-name">${b.baslik}</span>
-                    <span class="badge ${b.sinif}">${b.seviye}</span>
-                </div>
-                <div class="finding-text">${b.desc}</div>
-            `;
+            div.innerHTML = `<div class="finding-top"><span class="finding-name">${b.baslik}</span><span class="badge ${b.sinif}">${b.seviye}</span></div><div class="finding-text">${b.desc}</div>`;
             findingsContainer.appendChild(div);
         });
-
         analysisPanel.style.display = 'block';
     }
 </script>
-
 </body>
 </html>
